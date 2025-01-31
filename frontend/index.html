@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="public/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="src/static/login-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Регистрация</title> 
+</head>
+<body>
+    <h2>Регистрация</h2>
+    <div class="form-container">
+        <div class="input-field">
+            <label class="input-label" for="username">Enter your name</label>
+            <input class="input" type="text" id="username" placeholder="Elizaveta" />
+        </div>
+        <div class="input-field">
+            <label class="input-label" for="surname">Enter your surname</label>
+            <input class="input" type="text" id="surname" placeholder="Katkovskaya" />
+        </div>
+        <div class="switch-field">
+            <div class="switch-label">Creator</div>
+            <div class="switch" id="toggleSwitch">
+                <div class="knob"></div>
+            </div>
+        </div>
+        <button class="button">Register</button>
+        <div class="already-registered italic">
+            <a href="login.html" class="login-link">Already registered? Log In</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('toggleSwitch').addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+        document.querySelector('.button').addEventListener('click', function() {
+            window.location.href = 'register.html';
+        });
+    </script>
+</body>
+</html>
