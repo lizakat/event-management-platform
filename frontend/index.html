@@ -11,27 +11,29 @@
     <title>Регистрация</title> 
 </head>
 <body>
-    <h2>Регистрация</h2>
-    <div class="form-container">
-        <div class="input-field">
-            <label class="input-label" for="username">Enter your name</label>
-            <input class="input" type="text" id="username" placeholder="Elizaveta" />
-        </div>
-        <div class="input-field">
-            <label class="input-label" for="surname">Enter your surname</label>
-            <input class="input" type="text" id="surname" placeholder="Katkovskaya" />
-        </div>
-        <div class="switch-field">
-            <div class="switch-label">Creator</div>
-            <div class="switch" id="toggleSwitch">
-                <div class="knob"></div>
+    <form id="firstRegistrationForm">
+        <h2>Регистрация</h2>
+        <div class="form-container">
+            <div class="input-field">
+                <label class="input-label" for="username">Enter your name</label>
+                <input class="input" type="text" id="username" placeholder="Elizaveta" />
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="surname">Enter your surname</label>
+                <input class="input" type="text" id="surname" placeholder="Katkovskaya" />
+            </div>
+            <div class="switch-field">
+                <div class="switch-label">Creator</div>
+                <div class="switch" id="toggleSwitch">
+                    <div class="knob"></div>
+                </div>
+            </div>
+            <button class="button">Register</button>
+            <div class="already-registered italic">
+                <a href="login.html" class="login-link">Already registered? Log In</a>
             </div>
         </div>
-        <button class="button">Register</button>
-        <div class="already-registered italic">
-            <a href="login.html" class="login-link">Already registered? Log In</a>
-        </div>
-    </div>
+    </form>
     <script>
         document.getElementById('toggleSwitch').addEventListener('click', function() {
             this.classList.toggle('active');
