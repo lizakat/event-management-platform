@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
-from backend import models, schemas
+import models
+import schemas
+
 
 def create_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(**user.dict())
