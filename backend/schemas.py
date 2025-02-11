@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 class UserCreate(BaseModel):
@@ -5,8 +6,9 @@ class UserCreate(BaseModel):
     password: str
     name: str
     surname: str
+    google_id: str
     role_id: int = None
     avatar: str = None
-    birthdate: str = None
+    birthdate: datetime = None
     location: dict = None
     phone: str = None
