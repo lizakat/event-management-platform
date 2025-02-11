@@ -11,29 +11,31 @@
     <title>Регистрация</title> 
 </head>
 <body>
-    <h2>Регистрация</h2>
-    <div class="form-container">
-        <div class="input-field">
-            <label class="input-label" for="register-email">Enter your email</label>
-            <input class="input" type="text" id="register-email" placeholder="kbpf1811@gmail.com" />
+    <form id="secondRegistrationForm">
+        <h2>Регистрация</h2>
+        <div class="form-container">
+            <div class="input-field">
+                <label class="input-label" for="register-email">Enter your email</label>
+                <input class="input" type="text" id="register-email" placeholder="kbpf1811@gmail.com" />
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="register-password">Enter your password</label>
+                <input class="input" type="text" id="register-password" placeholder="qwerty1811" />
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="register-confirm-password">Confirm password</label>
+                <input class="input" type="text" id="register-confirm-password" placeholder="qwerty1811" />
+            </div>
+            <div class="resend-code">
+                <input class="input half-size" type="text" id="register-code" placeholder="123456" />
+                <button class="button-code" width=124>Resend code</button>
+            </div>
+            <button class="button">Register</button>
+            <div class="already-registered italic">
+                <a href="login.html" class="login-link">Already registered? Log In</a>
+            </div>        
         </div>
-        <div class="input-field">
-            <label class="input-label" for="register-password">Enter your password</label>
-            <input class="input" type="text" id="register-password" placeholder="qwerty1811" />
-        </div>
-        <div class="input-field">
-            <label class="input-label" for="register-confirm-password">Confirm password</label>
-            <input class="input" type="text" id="register-confirm-password" placeholder="qwerty1811" />
-        </div>
-        <div class="resend-code">
-            <input class="input half-size" type="text" id="register-code" placeholder="123456" />
-            <button class="button-code" width=124>Resend code</button>
-        </div>
-        <button class="button">Register</button>
-        <div class="already-registered italic">
-            <a href="login.html" class="login-link">Already registered? Log In</a>
-        </div>        
-    </div>
+    </form>
     <script>
         document.querySelector('.button').addEventListener('click', function() {
             window.location.href = 'login.html';

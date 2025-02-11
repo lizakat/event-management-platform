@@ -11,25 +11,27 @@
     <title>Вход</title> 
 </head>
 <body>
-    <h2>Вход</h2>
-    <div class="form-container">
-        <div class="input-field">
-            <label class="input-label" for="login-email">Enter your email</label>
-            <input class="input" type="text" id="login-email" placeholder="kbpf1811@gmail.com" />
+    <form id="loginForm">
+        <h2>Вход</h2>
+        <div class="form-container">
+            <div class="input-field">
+                <label class="input-label" for="login-email">Enter your email</label>
+                <input class="input" type="text" id="login-email" placeholder="kbpf1811@gmail.com" />
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="login-password">Enter your password</label>
+                <input class="input" type="text" id="login-password" placeholder="qwerty1811" />
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" id="login-scales" name="login-scales" checked />
+                <label for="login-scales">Remember me</label>
+            </div>
+            <button class="button">Log In</button>
+            <div class="already-registered italic">
+                <a href="forgot-password.html" class="forgot-password-link">Forgot password?</a>
+            </div>
         </div>
-        <div class="input-field">
-            <label class="input-label" for="login-password">Enter your password</label>
-            <input class="input" type="text" id="login-password" placeholder="qwerty1811" />
-        </div>
-        <div class="checkbox">
-            <input type="checkbox" id="login-scales" name="login-scales" checked />
-            <label for="login-scales">Remember me</label>
-          </div>
-        <button class="button">Log In</button>
-        <div class="already-registered italic">
-            <a href="forgot-password.html" class="forgot-password-link">Forgot password?</a>
-        </div>
-    </div>
+    </form>
     <script>
         document.querySelector('.button').addEventListener('click', function() {
             window.location.href = 'welcome.html';
