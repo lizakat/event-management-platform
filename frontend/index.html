@@ -28,7 +28,7 @@
                     <div class="knob"></div>
                 </div>
             </div>
-            <button class="button">Register</button>
+            <button type="button" class="button" id="nextButton">Next</button>
             <div class="already-registered italic">
                 <a href="login.html" class="login-link">Already registered? Log In</a>
             </div>
@@ -38,9 +38,16 @@
         document.getElementById('toggleSwitch').addEventListener('click', function() {
             this.classList.toggle('active');
         });
-        document.querySelector('.button').addEventListener('click', function() {
-            window.location.href = 'register.html';
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            const name = document.getElementById('username').value;
+            const surname = document.getElementById('surname').value;
+            const role_id = document.getElementById('toggleSwitch').classList.contains('active') ? 1 : 2;
+
+            // Переход на следующую форму с передачей данных через URL
+            window.location.href = `register.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&role_id=${role_id}`;
         });
+
     </script>
 </body>
 </html>
