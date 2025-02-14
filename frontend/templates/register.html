@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../public/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/login-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Регистрация</title>
+</head>
+<body>
+    <form id="secondRegistrationForm">
+        <h2>Регистрация</h2>
+        <div class="form-container">
+            <div class="input-field">
+                <label class="input-label" for="register-email">Enter your email</label>
+                <input class="input" type="email" id="register-email" placeholder="kbpf1811@gmail.com" />
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="register-password">Enter your password</label>
+                <input class="input" type="password" id="register-password" placeholder="qwerty1811" />
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="register-confirm-password">Confirm password</label>
+                <input class="input" type="password" id="register-confirm-password" placeholder="qwerty1811" />
+            </div>
+            <div class="resend-code">
+                <input class="input half-size" type="text" id="register-code" placeholder="123456" />
+                <button type="button" class="button-code" width=124>Resend code</button>
+            </div>
+            <button type="button" class="button" id="registerButton">Register</button>
+            <div class="already-registered italic">
+                <a href="/" class="login-link">Already registered? Log In</a>
+            </div>
+        </div>
+    </form>
+    <script src="../static/js/script.js"></script>
+</body>
+</html>
