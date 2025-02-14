@@ -8,6 +8,7 @@ def create_user(db: Session, user: schemas.UserCreate):
         password=user.password,
         name=user.name,
         surname=user.surname,
+        google_id=user.google_id,
         role_id=user.role_id,
         avatar=user.avatar,
         birthdate=user.birthdate,

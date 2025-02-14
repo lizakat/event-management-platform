@@ -6,7 +6,7 @@ class UserCreate(BaseModel):
     password: str
     name: str
     surname: str
-    google_id: str
+    google_id: str = None
     role_id: int = None
     avatar: str = None
     birthdate: datetime = None
