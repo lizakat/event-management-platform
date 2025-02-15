@@ -7,12 +7,10 @@ from backend import models, schemas, crud
 from backend.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
-# Создаем таблицы в базе данных
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Определяем путь к папке frontend
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
@@ -39,6 +37,9 @@ async def read_root(request: Request):
 async def read_register(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
+@app.get("/login")
+async def read_root(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/users/")
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
