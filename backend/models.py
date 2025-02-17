@@ -35,3 +35,4 @@ class User(Base):
     created_at = Column(TIMESTAMP, server_default='CURRENT_TIMESTAMP')
 
     role = relationship("Role")
+
