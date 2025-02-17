@@ -8,7 +8,6 @@ from backend.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
