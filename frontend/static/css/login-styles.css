@@ -122,6 +122,18 @@ body {
     font-size: 16px;
     color: var(--primary-color);
     text-align: left;
+    text-decoration: none;
+}
+a {
+    text-decoration: none; /* Убирает подчеркивание */
+}
+a:-webkit-any-link {
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+a:visited {
+    color: var(--primary-color);
 }
 
 .italic {

@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Проверяем, что мы на странице register.html
     if (window.location.pathname === '/register') {
         document.getElementById('registerButton').addEventListener('click', function() {
             const email = document.getElementById('register-email').value;
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Получаем данные из URL, переданные с предыдущей страницы
             const urlParams = new URLSearchParams(window.location.search);
             const name = urlParams.get('name');
             const surname = urlParams.get('surname');
