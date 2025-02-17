@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, Date, JSON, TIMESTAMP, ForeignKey, Boolean, Float
 from sqlalchemy.orm import relationship
-from database import Base
+from backend.database import Base
 
 class Role(Base):
     __tablename__ = "roles"
