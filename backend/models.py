@@ -1,5 +1,4 @@
-from decimal import Decimal
-from sqlalchemy import Column, Integer, String, Text, Date, JSON, TIMESTAMP, ForeignKey, Boolean, Float
+from sqlalchemy import Column, Integer, Text, Date, JSON, TIMESTAMP, ForeignKey, Boolean, Float
 from sqlalchemy.orm import relationship
 from database import Base
 
