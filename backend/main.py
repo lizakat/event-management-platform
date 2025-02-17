@@ -36,6 +36,19 @@ async def read_root(request: Request):
 async def read_register(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
+
+@app.get("/forgot-password")
+async def read_register(request: Request):
+    return templates.TemplateResponse("forgot-password.html", {"request": request})
+
+@app.get("/new-password")
+async def read_register(request: Request):
+    return templates.TemplateResponse("new-password.html", {"request": request})
+
+@app.get("/notification-password")
+async def read_register(request: Request):
+    return templates.TemplateResponse("notification-password.html", {"request": request})
+
 @app.get("/login")
 async def read_root(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
