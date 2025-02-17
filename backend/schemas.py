@@ -37,7 +37,7 @@ class RegistrationStatusResponse(RegistrationStatusBase):
 
 
 class UserBase(BaseModel):
-    email: EmailStr
+    email: str
     name: str
     surname: str
     avatar: Optional[str] = None
@@ -47,7 +47,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str
+    password: Optional[str] = None
     google_id: Optional[str] = None
     role_id: Optional[int] = None
 
