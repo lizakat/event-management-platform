@@ -71,5 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.location.pathname === '/forgot-password') {
+        document.querySelector('.button').addEventListener('click', function() {
+            window.location.href = '/notification-password';
+        });
+    }
+});
 
