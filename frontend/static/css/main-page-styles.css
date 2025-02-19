@@ -58,10 +58,6 @@ body {
     letter-spacing: -3%;
 }
 
-.logo-name {
-    font-style: italic;
-}
-
 .logo img {
     width: 44px;
     height: 44px;
@@ -171,4 +167,15 @@ body {
 
 .add-to-cart:hover {
     background: #A06CD5;
+}
+
+.title-fav {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.title-fav i{
+    margin-right: 0;
 }
