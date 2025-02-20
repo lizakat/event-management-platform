@@ -53,6 +53,10 @@ async def read_register(request: Request):
 async def read_root(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+@app.get("/main-page")
+async def read_root(request: Request):
+    return templates.TemplateResponse("main-page.html", {"request": request})
+
 @app.post("/users/")
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
