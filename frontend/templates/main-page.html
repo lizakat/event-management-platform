@@ -31,6 +31,20 @@
             </label>
             <i class="fa fa-search"></i>
         </div>
+        <div class="filter-buttons">
+            <div class="dropdown">
+                <button class="dropdown-toggle">Сортировка ▼</button>
+                <div class="dropdown-menu">
+                    <a href="#" data-sort="rec">По релевантности</a>
+                    <a href="#" data-sort="asc">По возрастанию</a>
+                    <a href="#" data-sort="desc">По убыванию</a>
+                    <a href="#" data-sort="date">По дате</a>
+                    <a href="#" data-sort="name">По имени</a>
+                </div>
+              </div>
+            <input type="date" id="start" name="trip-start" value="2025-02-20" min="2025-02-20" />
+            <button type="button" class="filter-button">Фильтр</button>
+        </div>
     </div>
     <section class="event-list">
         <article class="event">
@@ -47,7 +61,7 @@
                     <p class="event-location">г. Минск, ул. Советская 15</p>
                 </div>
                 <p class="event-price">Cost: $29.99</p>
-                <button type="button" class="add-to-cart">Больше...</button>
+                <button type="button" class="add-to-cart">Узнать подробнее...</button>
             </div>
         </article>
         <article class="event">
@@ -120,4 +134,31 @@
         </article>
     </section>
 </body>
+<script>
+      // Получаем элементы
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const dropdownMenu = document.querySelector('.dropdown-menu');
+const dropdown = document.querySelector('.dropdown');
+
+// Открываем/закрываем меню при клике на кнопку
+dropdownToggle.addEventListener('click', () => {
+    dropdown.classList.toggle('active');
+});
+
+// Закрываем меню при клике вне его
+document.addEventListener('click', (event) => {
+    if (!dropdown.contains(event.target)) {
+        dropdown.classList.remove('active');
+    }
+});
+
+// Обработка выбора сортировки
+dropdownMenu.addEventListener('click', (event) => {
+    event.preventDefault(); // Отменяем переход по ссылке
+    const selectedSort = event.target.getAttribute('data-sort');
+    console.log(`Выбрана сортировка: ${selectedSort}`);
+    // Здесь можно добавить логику для сортировки данных
+    dropdown.classList.remove('active'); // Закрываем меню после выбора
+});
+</script>
 </html>
