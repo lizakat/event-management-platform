@@ -12,6 +12,10 @@
     font-family: var(--font-family);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     padding-top: 80px;    
     background-image: url("../../public/background.svg");
@@ -45,6 +49,7 @@ body {
     align-content: center;
     padding: 24px 15% 24px 15%;
     row-gap: 0px;
+    z-index: 10;
 }
 
 .logo {
@@ -307,3 +312,24 @@ input[type='date'] {
     display: block;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    margin-bottom:24px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #757575;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    background-color: #FFFFFF;
+}
+
+.pagination a:hover {
+    background: #f0f0f0;
+}
