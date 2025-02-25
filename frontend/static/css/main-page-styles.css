@@ -92,6 +92,10 @@ body {
     color: white;
 }
 
+.far:hover {
+    color: #ABF54B;
+}
+
 .event-list {
    margin-top: 0px;
 }
@@ -106,6 +110,13 @@ body {
     margin-bottom: 24px;
     flex-direction: row;
     border: 1px solid #D9D9D9;
+    transition: box-shadow 0.2s ease; /* Плавный переход для box-shadow */
+}
+
+
+.event:hover{
+    box-shadow: 0px 5px 20px #757575;
+
 }
 
 .event img {
