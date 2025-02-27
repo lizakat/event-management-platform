@@ -83,6 +83,19 @@ a:hover {
     font-weight: bold;
 }
 
+a {
+    text-decoration: none; /* Убирает подчеркивание */
+}
+
+a:-webkit-any-link {
+    color: #757575;
+    cursor: pointer;
+    text-decoration: none;
+}
+a:visited {
+    color: #757575;
+}
+
 .menu {
     width: 120px;
     padding: 12px 24px 12px 24px;
@@ -116,3 +129,4 @@ th,
 td {
     border: 1px solid rgb(160 160 160);
 }
+

@@ -56,9 +56,18 @@ body {
 }
 
 .logo h1 {
+    text-shadow: 2px 2px var(--secondary-color);
     font-size: 32px;
     color: var(--primary-color);
     font-weight: bold;
+    letter-spacing: -3%;
+
+}
+
+.logo h1:hover{
+    text-shadow: 2px 2px  var(--primary-color);
+    font-size: 32px;
+    color: var(--secondary-color);
 }
 
 .logo img {
