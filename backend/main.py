@@ -61,6 +61,32 @@ async def read_root(request: Request):
 async def read_root(request: Request):
     return templates.TemplateResponse("profile.html", {"request": request})
 
+
+@app.get("/create-event")
+async def read_register(request: Request):
+    return templates.TemplateResponse("create-event.html", {"request": request})
+
+@app.get("/edit-event")
+async def read_register(request: Request):
+    return templates.TemplateResponse("edit-event.html", {"request": request})
+
+@app.get("/edit-profile")
+async def read_root(request: Request):
+    return templates.TemplateResponse("edit-profile.html", {"request": request})
+
+@app.get("/event-page")
+async def read_root(request: Request):
+    return templates.TemplateResponse("event-page.html", {"request": request})
+
+@app.get("/favourite-events")
+async def read_root(request: Request):
+    return templates.TemplateResponse("favourite-events.html", {"request": request})
+
+@app.get("/user-registrations")
+async def read_root(request: Request):
+    return templates.TemplateResponse("user-registrations.html", {"request": request})
+
+
 @app.post("/users/")
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
