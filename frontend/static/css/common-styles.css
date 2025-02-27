@@ -4,8 +4,9 @@
     --background-color: #FFFFFF;
     --primary-color: #C08CFC;
     --secondary-color: #ABF54B;
-    --text-color: #1e1e1e;
+    --text-color: #1E1E1E;
     --description-color: #757575;
+    --primary-color-hover: #A06CD5;
 }
 
 * {
@@ -130,5 +131,24 @@ a:visited {
 }
 
 .button:hover {
-    background: #A06CD5;
+    background: var(--primary-color-hover);
+}
+
+hr {
+    width: 100%;
+    margin: 24px auto;
+    border: 1px solid var(--description-color);
+}
+
+
+.a-logo {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+    padding: 0px;
+}
+
+.a-logo h1 {
+    padding: 0;
+    margin: 0;
 }

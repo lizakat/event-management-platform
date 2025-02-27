@@ -71,7 +71,7 @@ body {
     height: 18px;
     left: 3px;
     top: calc(50% - 9px);
-    background: #ffffff;
+    background: white;
     border-radius: 50%;
     transition: left 0.2s;
 }
@@ -97,7 +97,7 @@ body {
 }
 
 .button:hover {
-    background: #A06CD5;
+    background: var(--primary-color-hover);
 }
 
 
@@ -108,7 +108,7 @@ body {
 }
 
 .button-code:hover {
-    background: #A06CD5;
+    background: var(--primary-color-hover);
 }
 
 h2 {

@@ -83,5 +83,5 @@ body {
 }
 
 .button:hover {
-    background: #a16ae8;
+    background: var(--primary-color-hover);
 }

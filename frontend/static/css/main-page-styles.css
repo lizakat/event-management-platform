@@ -9,7 +9,7 @@ body {
 }
 
 .event {
-    background-color: #FFFFFF;
+    background-color: white;
     border-radius: 16px;
     padding: 24px;
     display: flex;
@@ -17,12 +17,12 @@ body {
     align-items: stretch;
     margin-bottom: 24px;
     flex-direction: row;
-    border: 1px solid #D9D9D9;
+    border: 1px solid var(--border-color);
     transition: box-shadow 0.2s ease;
 }
 
 .event:hover {
-    box-shadow: 0px 5px 20px #757575;
+    box-shadow: 0px 5px 20px var(--description-color);
 }
 
 .event img {
@@ -63,12 +63,12 @@ body {
 .event p {
     margin: 0;
     margin-bottom: 8px;
-    color: #757575;
+    color: var(--description-color);
     font-size: 14px;
 }
 
 .event span {
-    color: #757575;
+    color: var(--description-color);
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -127,11 +127,11 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: white;
     border-radius: 45px;
     width: 300px;
     padding: 8px 16px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid var(--border-color);
 }
 
 .search input[type="text"] {
@@ -144,17 +144,17 @@ h2 {
 }
 
 .search input[type="text"]::placeholder {
-    color: #757575;
+    color: var(--description-color);
 }
 
 .search .fa-search {
-    color: #757575;
+    color: var(--description-color);
     cursor: pointer;
 }
 
 .filter-button {
-    border: 1px solid #D9D9D9;
-    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    background-color: white;
     height: 38px;
     border-radius: 45px;
     font-size: 16px;
@@ -172,10 +172,10 @@ input[type='date'] {
     color: #000;
     font-size: 16px;
     border: none;
-    background: #FFFFFF;
+    background: white;
     border-radius: 45px;
     padding: 8px 16px;
-    color: #757575;
+    color: var(--description-color);
     margin-left: 8px;
 }
 
@@ -185,10 +185,10 @@ input[type='date'] {
 }
 
 .dropdown-toggle {
-    background-color: #ffffff;
-    color: #757575;
+    background-color: white;
+    color: var(--description-color);
     padding: 8px 16px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid var(--border-color);
     cursor: pointer;
     border-radius: 45px;
     font-size: 16px;
@@ -210,7 +210,7 @@ input[type='date'] {
 }
 
 .dropdown-menu a {
-    color: #757575;
+    color: var(--description-color);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -236,11 +236,11 @@ input[type='date'] {
     margin: 0 5px;
     padding: 8px 16px;
     text-decoration: none;
-    color: #757575;
-    border: 1px solid #d9d9d9;
+    color: var(--description-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     transition: background 0.3s ease;
-    background-color: #FFFFFF;
+    background-color: white;
 }
 
 .pagination a:hover {
