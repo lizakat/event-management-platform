@@ -1,110 +1,8 @@
-:root {
-    --font-family: "Montserrat", sans-serif;
-    --border-color: #D9D9D9;
-    --background-color: #FFFFFF;
-    --primary-color: #C08CFC;
-    --secondary-color: #ABF54B;
-    --text-color: #1e1e1e;
-    --description-color: #757575;
-}
-
-* {
-    font-family: var(--font-family);
-}
-
-html {
-    scroll-behavior: smooth;
-}
+@import url('common-styles.css');
 
 body {
-    padding-top: 80px;    
     background-image: url("../../public/background.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    margin: 0;
-    padding: 0 15%;
-    margin-top: 24px;
 }
-
-
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    width: 70%;
-    height: 32px;
-    top: 0;
-    left: 0;
-    background: #302e2e;
-    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.55);
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    padding: 24px 15% 24px 15%;
-    row-gap: 0px;
-    z-index: 10;
-}
-
-.logo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;       
-}
-
-.logo h1 {
-    text-shadow: 2px 2px var(--secondary-color);
-    font-size: 32px;
-    color: var(--primary-color);
-    font-weight: bold;
-    letter-spacing: -3%;
-
-}
-
-.logo h1:hover{
-    text-shadow: 2px 2px  var(--primary-color);
-    font-size: 32px;
-    color: var(--secondary-color);
-}
-
-.logo img {
-    width: 44px;
-    height: 44px;
-    border-radius: 45px;
-    margin-right: 20px;
-}
-
-.menu-items {
-    list-style: none;
-    padding: 0;
-    display: flex;
-}
-.menu-items li {
-    margin-left: 25px;
-}
-.menu-items a {
-    text-decoration: none;
-    color: #000000;
-    display: flex;
-    align-items: center;
-}
-
-.far {
-    font-size: 24px;
-    color: white;
-}
-.far:hover {
-    color: var(--secondary-color);
-}
-
-
-/* новое */
 
 h1 {
     margin: 0;
@@ -112,21 +10,20 @@ h1 {
     align-self: center;
 }
 
-.profile{
+.profile {
     width: 100%;
     padding: 24px;
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF;
     border-radius: 16px;
-    border: 1px solid #D9D9D9; /* Добавляем границу для контейнера */
+    border: 1px solid #D9D9D9;
 }
 
-.user-info{
+.user-info {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-
 }
 
 .user-info img {
@@ -136,19 +33,19 @@ h1 {
     border-radius: 16px;
 }
 
-.user-name{
+.user-name {
     margin: 0;
 }
 
 .user-details {
-    flex: 1; 
+    flex: 1;
     margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.user-details p{
+.user-details p {
     margin: 0;
 }
 
@@ -156,10 +53,9 @@ hr {
     width: 100%;
     margin: 24px auto;
     border: 1px solid #757575;
+}
 
-  }
-
-h3{
+h3 {
     padding: 0;
     margin-bottom: 24px;
     margin-top: 0px;
@@ -174,30 +70,18 @@ h3{
     color: white;
 }
 
-li{
+li {
     font-family: var(--font-family);
-    color:white;
+    color: white;
     list-style: none;
     text-decoration: none;
     padding: 12px 0px;
 }
-a {
-    text-decoration: none; /* Убирает подчеркивание */
-}
 
-a:-webkit-any-link {
-    color: #757575;
-    cursor: pointer;
-    text-decoration: none;
-}
-a:visited {
-    color: #757575;
-}
-a:hover{
+a:hover {
     color: var(--secondary-color);
     font-weight: bold;
 }
-
 
 .menu {
     width: 120px;
@@ -208,17 +92,27 @@ a:hover{
     align-items: center;
     background-color: #FFFFFF;
     border-radius: 16px;
-    border: 1px solid #D9D9D9; /* Добавляем границу для контейнера */
+    border: 1px solid #D9D9D9;
 }
-
-
 
 .all {
     margin-top: 80px;
-    /*padding: 24px;*/
-    /*background-color: white;*/
     border-radius: 16px;
     display: flex;
     align-items: flex-start;
     flex-direction: row;
+}
+
+table {
+    border: 2px solid rgb(140 140 140);
+}
+
+thead > tr,
+tfoot > tr {
+    background-color: rgb(228 240 245);
+}
+
+th,
+td {
+    border: 1px solid rgb(160 160 160);
 }

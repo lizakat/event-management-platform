@@ -1,0 +1,125 @@
+:root {
+    --font-family: "Montserrat", sans-serif;
+    --border-color: #D9D9D9;
+    --background-color: #FFFFFF;
+    --primary-color: #C08CFC;
+    --secondary-color: #ABF54B;
+    --text-color: #1e1e1e;
+    --description-color: #757575;
+}
+
+* {
+    font-family: var(--font-family);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding-top: 80px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0 15%;
+    margin-top: 24px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 70%;
+    height: 32px;
+    top: 0;
+    left: 0;
+    background: #302e2e;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.55);
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    padding: 24px 15% 24px 15%;
+    row-gap: 0px;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo h1 {
+    font-size: 32px;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.logo img {
+    width: 44px;
+    height: 44px;
+    border-radius: 45px;
+    margin-right: 20px;
+}
+
+.menu-items {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+.menu-items li {
+    margin-left: 25px;
+}
+
+.menu-items a {
+    text-decoration: none;
+    color: #000000;
+    display: flex;
+    align-items: center;
+}
+
+.far {
+    font-size: 24px;
+    color: white;
+}
+
+.far:hover {
+    color: var(--secondary-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:-webkit-any-link {
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--primary-color);
+}
+
+.button {
+    padding: 12px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #A06CD5;
+}

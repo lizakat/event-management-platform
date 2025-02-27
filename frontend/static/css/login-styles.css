@@ -1,25 +1,8 @@
-:root {
-    --font-family: "Montserrat", sans-serif;
-    --border-color: #D9D9D9;
-    --background-color: #FFFFFF;
-    --primary-color: #C08CFC;
-    --secondary-color: #ABF54B;
-    --text-color: #1e1e1e;
-    --description-color: #757575;
-}
+@import url('common-styles.css');
 
 body {
-    font-family: var(--font-family), serif;
     background-image: url("../../public/background-login.svg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
     height: 100vh;
-    margin: 0;
     padding: 0 15%;
 }
 
@@ -59,7 +42,6 @@ body {
     margin-top: 4px;
     font-family: var(--font-family);
     font-style: italic;
-
 }
 
 .switch-field {
@@ -98,60 +80,31 @@ body {
     left: 19px;
 }
 
-.button {
-    width: 272px;
-    height: 40px;
-    padding: 12px;
-    background: var(--primary-color);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.3s ease;
-}
-
-.button:hover {
-    background: #A06CD5;
-}
-
 .already-registered {
     width: 272px;
     height: 16px;
     font-size: 16px;
     color: var(--primary-color);
     text-align: left;
-    text-decoration: none;
-}
-a {
-    text-decoration: none; /* Убирает подчеркивание */
-}
-a:-webkit-any-link {
-    color: var(--primary-color);
-    cursor: pointer;
-    text-decoration: none;
-}
-a:visited {
-    color: var(--primary-color);
 }
 
 .italic {
     font-style: italic;
 }
-
-.button-code {
+.button {
     width: 272px;
     height: 40px;
-    padding: 12px;
-    background: var(--primary-color);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #A06CD5;
+}
+
+
+.button-code {
+    width: 124px;
+    height: 40px;
+    letter-spacing: -0.04em;
 }
 
 .button-code:hover {
@@ -159,9 +112,9 @@ a:visited {
 }
 
 h2 {
-    margin-bottom: 16px; 
-    text-align: left; 
-    width: auto; 
+    margin-bottom: 16px;
+    text-align: left;
+    width: auto;
     font-style: normal;
     font-weight: 500;
     font-size: 40px;
@@ -170,7 +123,7 @@ h2 {
     color: var(--text-color);
 }
 
-.half-size{
+.half-size {
     width: 100px;
     margin-top: 0px;
 }
@@ -184,7 +137,6 @@ h2 {
     gap: 24px;
     height: 40px;
 }
-
 
 .checkbox {
     display: flex;
@@ -224,9 +176,8 @@ h2 {
 }
 
 .checkbox label {
-    font-family: var(--second-family);
+    font-family: var(--font-family);
     font-size: 16px;
     color: var(--text-color);
     cursor: pointer;
 }
-
