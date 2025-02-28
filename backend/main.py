@@ -29,62 +29,61 @@ def get_db():
 
 @app.get("/")
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
+    return templates.TemplateResponse("index.html", {"request": request, "title": "Регистрация"})
 
 @app.get("/register")
 async def read_register(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
+    return templates.TemplateResponse("register.html", {"request": request, "title": "Регистрация"})
 
 
 @app.get("/forgot-password")
 async def read_register(request: Request):
-    return templates.TemplateResponse("forgot-password.html", {"request": request})
+    return templates.TemplateResponse("forgot-password.html", {"request": request, "title": "Восстановление пароля"})
 
 @app.get("/new-password")
 async def read_register(request: Request):
-    return templates.TemplateResponse("new-password.html", {"request": request})
+    return templates.TemplateResponse("new-password.html", {"request": request, "title": "Восстановление пароля"})
 
 @app.get("/notification-password")
 async def read_register(request: Request):
-    return templates.TemplateResponse("notification-password.html", {"request": request})
+    return templates.TemplateResponse("notification-password.html", {"request": request, "title": "Восстановление пароля"})
 
 @app.get("/login")
 async def read_root(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse("login.html", {"request": request, "title": "Вход"})
 
 @app.get("/main-page")
 async def read_root(request: Request):
-    return templates.TemplateResponse("main-page.html", {"request": request})
+    return templates.TemplateResponse("main-page.html", {"request": request, "title": "Главная"})
 
 @app.get("/profile")
 async def read_root(request: Request):
-    return templates.TemplateResponse("profile.html", {"request": request})
+    return templates.TemplateResponse("profile.html", {"request": request, "title": "Аккаунт"})
 
 
 @app.get("/create-event")
 async def read_register(request: Request):
-    return templates.TemplateResponse("create-event.html", {"request": request})
+    return templates.TemplateResponse("create-event.html", {"request": request, "title": "Создание события"})
 
 @app.get("/edit-event")
 async def read_register(request: Request):
-    return templates.TemplateResponse("edit-event.html", {"request": request})
+    return templates.TemplateResponse("edit-event.html", {"request": request, "title": "Изменить событие"})
 
 @app.get("/edit-profile")
 async def read_root(request: Request):
-    return templates.TemplateResponse("edit-profile.html", {"request": request})
+    return templates.TemplateResponse("edit-profile.html", {"request": request, "title": "Редактировать профиль"})
 
 @app.get("/event-page")
 async def read_root(request: Request):
-    return templates.TemplateResponse("event-page.html", {"request": request})
+    return templates.TemplateResponse("event-page.html", {"request": request, "title": "Событие ххх"})
 
 @app.get("/favourite-events")
 async def read_root(request: Request):
-    return templates.TemplateResponse("favourite-events.html", {"request": request})
+    return templates.TemplateResponse("favourite-events.html", {"request": request, "title": "Любимые события"})
 
 @app.get("/user-registrations")
 async def read_root(request: Request):
-    return templates.TemplateResponse("user-registrations.html", {"request": request})
+    return templates.TemplateResponse("user-registrations.html", {"request": request, "title": "Мои регистрации"})
 
 
 @app.post("/users/")
