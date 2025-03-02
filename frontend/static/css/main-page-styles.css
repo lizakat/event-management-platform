@@ -2,11 +2,14 @@
 
 body {
     background-image: url("../../public/background.svg");
+    margin: 0; /* Убедитесь, что body не имеет отступов */
+    padding: 0; /* Убедитесь, что body не имеет отступов */
 }
 
 .event-list {
     margin-top: 0px;
 }
+
 
 .event {
     background-color: white;
@@ -229,7 +232,6 @@ input[type='date'] {
     display: flex;
     justify-content: center;
     margin-top: 24px;
-    margin-bottom: 24px;
 }
 
 .pagination a {
@@ -246,3 +248,18 @@ input[type='date'] {
 .pagination a:hover {
     background: #f0f0f0;
 }
+
+
+
+
+
+/* fav events*/
+.favourite-events-title{
+    background-color: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: auto;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+

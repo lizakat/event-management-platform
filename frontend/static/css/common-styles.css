@@ -19,10 +19,50 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden; /* Скрыть горизонтальную прокрутку */
 }
 
+/* Общий контейнер для всей страницы */
+.page-wrapper {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение */
+    min-height: calc(100vh - 24px); /* Минимальная высота — вся высота окна */
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed; /* Фиксированное позиционирование */
+    height: 32px;
+    top: 0; /* Прижат к верхнему краю */
+    left: 0; /* Прижат к левому краю */
+    width: 70%; /* Занимает всю ширину */
+    background: #302e2e;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.55);
+    z-index: 1000; /* Убедитесь, что header поверх других элементов */
+    padding: 24px 15%; /* Отступы для содержимого header */
+}
+
+
+/* Измените стили для footer */
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%; /* Занимает всю ширину окна */
+    background-color: #302e2e;
+    color: white;
+    height: 32px;
+    text-align: center;
+    padding: 24px 15%; /* Отступы по 15% с каждой стороны */
+    box-shadow: 0px -8px 30px rgba(0, 0, 0, 0.55);
+    margin-top: 24px;
+    position: relative; /* Убедитесь, что footer не фиксированный */
+    z-index: 1; /* Чтобы footer был поверх контента */
+}
 body {
-    padding-top: 80px;
+    /*padding-top: 80px;*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -31,28 +71,22 @@ body {
     flex-direction: column;
     justify-content: center;
     margin: 0;
-    padding: 0 15%;
+   /* padding: 0 15%;*/
     margin-top: 24px;
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    width: 70%;
-    height: 32px;
-    top: 0;
-    left: 0;
-    background: #302e2e;
-    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.55);
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    padding: 24px 15% 24px 15%;
-    row-gap: 0px;
-    z-index: 10;
+
+
+
+/* Отступ для контента, чтобы он начинался под header */
+.content-wrapper {
+    padding-top: 24px; /* Высота header + дополнительный отступ */
+    padding-left: 15%;
+    padding-right: 15%;
+    box-sizing: border-box; /* Учесть padding в общей ширине */
+    flex: 1;
 }
+
 
 .logo {
     display: flex;
@@ -172,28 +206,9 @@ hr {
     font-family: var(--second-font-family); /* Основной шрифт */
     font-weight: 700;                       /* Увеличенная жирность (толще) */
     letter-spacing: 0.0em;
-    text-shadow: 1px 1px 8px white;
 }
 
 
 
 
 /*footer*/
-
-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    width: 100%;
-    height: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #302e2e;
-    color: white;
-    text-align: center;
-    box-sizing: content-box;
-    padding: 24px 24% 24px 24%;
-    box-shadow: 0px -8px 30px rgba(0, 0, 0, 0.55);
-    margin-top: 0px;
-}
