@@ -17,6 +17,19 @@
     font-family: var(--font-family);
 }
 
+body {
+    /*padding-top: 80px;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    scrollbar-gutter: stable;
+}
+
 html {
     scroll-behavior: smooth;
     overflow-x: hidden; /* Скрыть горизонтальную прокрутку */
@@ -61,20 +74,7 @@ html {
     position: relative; /* Убедитесь, что footer не фиксированный */
     z-index: 1; /* Чтобы footer был поверх контента */
 }
-body {
-    /*padding-top: 80px;*/
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0;
-   /* padding: 0 15%;*/
-    margin-top: 24px;
-    scrollbar-gutter: stable;
-}
+
 
 
 

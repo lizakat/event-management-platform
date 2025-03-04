@@ -42,6 +42,12 @@ body {
     margin-top: 4px;
     font-family: var(--font-family);
     font-style: italic;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.input:focus {
+    box-shadow: 0 4px 8px var(--secondary-color);
 }
 
 .switch-field {
@@ -86,6 +92,10 @@ body {
     font-size: 16px;
     color: var(--primary-color);
     text-align: left;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .italic {
