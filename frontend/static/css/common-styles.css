@@ -45,7 +45,7 @@ html {
 }
 
 
-/* Измените стили для footer */
+/*footer */
 .footer {
     display: flex;
     align-items: center;
@@ -57,7 +57,7 @@ html {
     text-align: center;
     padding: 24px 15%; /* Отступы по 15% с каждой стороны */
     box-shadow: 0px -8px 30px rgba(0, 0, 0, 0.55);
-    margin-top: 24px;
+    /*margin-top: 24px;*/
     position: relative; /* Убедитесь, что footer не фиксированный */
     z-index: 1; /* Чтобы footer был поверх контента */
 }
@@ -73,6 +73,7 @@ body {
     margin: 0;
    /* padding: 0 15%;*/
     margin-top: 24px;
+    scrollbar-gutter: stable;
 }
 
 
@@ -192,8 +193,8 @@ hr {
 .a-logo {
     display: flex;
     flex-direction: row;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .a-logo h1 {
@@ -209,6 +210,6 @@ hr {
 }
 
 
-
-
-/*footer*/
+h4{
+    font-style: italic;
+}

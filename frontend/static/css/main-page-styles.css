@@ -2,8 +2,8 @@
 
 body {
     background-image: url("../../public/background.svg");
-    margin: 0; /* Убедитесь, что body не имеет отступов */
-    padding: 0; /* Убедитесь, что body не имеет отступов */
+    margin: 0;
+    padding: 0;
 }
 
 .event-list {
@@ -235,7 +235,7 @@ input[type='date'] {
 }
 
 .pagination a {
-    margin: 0 5px;
+    margin:  0 5px 24px;
     padding: 8px 16px;
     text-decoration: none;
     color: var(--description-color);
@@ -263,3 +263,27 @@ input[type='date'] {
     margin-bottom: 24px;
 }
 
+
+/*registrations*/
+.button-container {
+    display: flex; /* Размещаем кнопки в строку */
+    gap: 24px; /* Расстояние между кнопками */
+    margin-top: 16px; /* Отступ сверху */
+
+}
+
+
+.cancel-registration {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    width: 220px;
+    height: 34px;
+    padding: 8px 16px;
+    margin-top: auto;
+    font-size: 14px;
+    text-align: left;
+}
+
+.cancel-registration:hover {
+    background: #c8c8c8;
+}
