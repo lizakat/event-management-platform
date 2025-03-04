@@ -10,30 +10,33 @@
         <h2 class="second-font">Регистрация</h2>
         <div class="form-container">
             <div class="input-field">
-                <label class="input-label" for="username">Enter your name</label>
+                <label class="input-label" for="username">Введите ваше имя</label>
                 <input class="input" type="text" id="username" placeholder="Elizaveta" />
             </div>
             <div class="input-field">
-                <label class="input-label" for="surname">Enter your surname</label>
+                <label class="input-label" for="surname">Введите вашу фамилию</label>
                 <input class="input" type="text" id="surname" placeholder="Katkovskaya" />
             </div>
             <div class="switch-field">
-                <div class="switch-label">Creator</div>
+                <div class="switch-label">Организатор</div>
                 <div class="switch" id="toggleSwitch">
                     <div class="knob"></div>
                 </div>
             </div>
-            <button type="button" class="button" id="nextButton">Next</button>
-            <div class="already-registered italic">
-                <a href="/login" class="login-link">Already registered? Log In</a>
+            <button type="button" class="button" id="nextButton">Дальше</button>
+            <div class="line-container">
+                <hr class="custom-hr">
+                <span class="line-text">или</span>
+                <hr class="custom-hr">
             </div>
-            <hr style="margin: 0; border-color: #D9D9D9">
-            <div class="alternative-auth">
-                <p style="font-style: italic">Войти с помощью</p>
-                <img src="../static/images/icons/google-icon.svg" alt="Иконка" width="32" height="32" style="visibility: hidden">
-                <img src="../static/images/icons/google-icon.svg" alt="Иконка" width="32" height="32">
-                <img src="../static/images/icons/google-icon.svg" alt="Иконка" width="32" height="32"  style="visibility: hidden">
-            </div>
+            <button type="button" class="alternative-auth" id="alternativeAuthButton">
+                    <img src="../static/images/icons/google-icon.svg" alt="G" width="24" height="24" class="icon">
+                    Войти с помощью Google
+            </button>
+
+        </div>
+        <div class="already-registered italic">
+            <a href="/login" class="login-link">Уже зарегистрированы? Войти</a>
         </div>
     </form>
 

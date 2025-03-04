@@ -9,32 +9,35 @@
         <h2 class="second-font">Регистрация</h2>
         <div class="form-container">
             <div class="input-field">
-                <label class="input-label" for="register-email">Enter your email</label>
+                <label class="input-label" for="register-email">Введите ваш email</label>
                 <input class="input" type="email" id="register-email" placeholder="kbpf1811@gmail.com" />
             </div>
             <div class="input-field">
-                <label class="input-label" for="register-password">Enter your password</label>
+                <label class="input-label" for="register-password">Придумайте пароль</label>
                 <input class="input" type="password" id="register-password" placeholder="qwerty1811" />
             </div>
             <div class="input-field">
-                <label class="input-label" for="register-confirm-password">Confirm password</label>
+                <label class="input-label" for="register-confirm-password">Подтвердите пароль</label>
                 <input class="input" type="password" id="register-confirm-password" placeholder="qwerty1811" />
             </div>
             <div class="resend-code">
                 <input class="input half-size" type="text" id="register-code" placeholder="123456" />
-                <button type="button" class="button button-code">Resend code</button>
+                <button type="button" class="button button-code">Прислать код</button>
             </div>
-            <button type="button" class="button" id="registerButton">Register</button>
-            <div class="already-registered italic">
-                <a href="/login" class="login-link">Already registered? Log In</a>
+            <button type="button" class="button" id="registerButton">Зарегистрироваться</button>
+            <div class="line-container">
+                <hr class="custom-hr">
+                <span class="line-text">или</span>
+                <hr class="custom-hr">
             </div>
-            <hr style="margin: 0; border-color: #D9D9D9">
-            <div class="alternative-auth">
-                <p style="font-style: italic">Войти с помощью</p>
-                <img src="../static/images/icons/google-icon.svg" alt="G" width="32" height="32" style="visibility: hidden">
-                <img src="../static/images/icons/google-icon.svg" alt="G" width="32" height="32">
-                <img src="../static/images/icons/google-icon.svg" alt="G" width="32" height="32"  style="visibility: hidden">
-            </div>
+            <button type="button" class="alternative-auth" id="alternativeAuthButton">
+                    <img src="../static/images/icons/google-icon.svg" alt="G" width="24" height="24" class="icon">
+                    Войти с помощью Google
+            </button>
+
+        </div>
+        <div class="already-registered italic">
+            <a href="/login" class="login-link">Уже зарегистрированы? Войти</a>
         </div>
     </form>
 {% endblock %}
