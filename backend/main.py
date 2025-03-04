@@ -29,7 +29,7 @@ def get_db():
 
 @app.get("/")
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "title": "Регистрация"})
+    return templates.TemplateResponse("register_st1.html", {"request": request, "title": "Регистрация"})
 
 @app.get("/register")
 async def read_register(request: Request):
