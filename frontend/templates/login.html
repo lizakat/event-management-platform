@@ -13,7 +13,10 @@
                 <input class="input" type="text" id="login-email" placeholder="kbpf1811@gmail.com" />
             </div>
             <div class="input-field">
-                <label class="input-label" for="login-password">Введите пароль</label>
+                <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center">
+                    <label class="input-label" for="login-password">Введите пароль</label>
+                    <a href="/forgot-password" class="forgot-password-link" style="font-style: italic">Забыли?</a>
+                </div>
                 <input class="input" type="text" id="login-password" placeholder="qwerty1811" />
             </div>
             <div class="checkbox">
@@ -21,10 +24,6 @@
                 <label for="login-scales">Запомнить меня</label>
             </div>
             <button type="button" class="button">Войти</button>
-{#            <div class="already-registered italic">#}
-{#                <a href="/forgot-password" class="forgot-password-link">Забыли пароль?</a>#}
-{#                <a href="/" class="forgot-password-link">Register</a>#}
-{#            </div>#}
             <div class="line-container">
                 <hr class="custom-hr">
                 <span class="line-text">или</span>
@@ -37,7 +36,7 @@
 
         </div>
         <div class="already-registered italic">
-            <a href="/" class="login-link">Не зарегистрированы?</a>
+            <a href="/" class="login-link">Нет аккаунта? <span style="font-weight: bold;"> Регистрация</span></a>
         </div>
     </form>
     <script>

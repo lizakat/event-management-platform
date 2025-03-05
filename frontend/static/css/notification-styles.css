@@ -9,7 +9,7 @@ body {
 .notification {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     padding: 24px;
     gap: 20px;
@@ -27,7 +27,6 @@ body {
     padding: 0;
     gap: 16px;
     width: 236px;
-    height: 126px;
 }
 
 .content {
@@ -37,7 +36,6 @@ body {
     padding: 0;
     gap: 4px;
     width: 236px;
-    height: 70px;
 }
 
 .reset-password {
@@ -64,7 +62,6 @@ body {
 
 .description {
     width: 236px;
-    height: 44px;
     font-weight: 400;
     font-size: 16px;
     line-height: 140%;
