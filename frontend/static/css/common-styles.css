@@ -29,33 +29,36 @@ body {
     justify-content: center;
     margin: 0;
     scrollbar-gutter: stable;
+    width: 100vw;
+    overflow: hidden;
 }
 
 html {
     scroll-behavior: smooth;
-    overflow-x: hidden; /* Скрыть горизонтальную прокрутку */
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
-/* Общий контейнер для всей страницы */
+
 .page-wrapper {
     display: flex;
-    flex-direction: column; /* Вертикальное расположение */
-    min-height: calc(100vh - 24px); /* Минимальная высота — вся высота окна */
+    flex-direction: column;
+    min-height: calc(100vh - 24px);
 }
 
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: fixed; /* Фиксированное позиционирование */
+    position: fixed;
     height: 32px;
-    top: 0; /* Прижат к верхнему краю */
-    left: 0; /* Прижат к левому краю */
-    width: 70%; /* Занимает всю ширину */
+    top: 0;
+    left: 0;
+    width: 70%;
     background: #302e2e;
-    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.55);
-    z-index: 1000; /* Убедитесь, что header поверх других элементов */
-    padding: 24px 15%; /* Отступы для содержимого header */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    padding: 24px 15%;
 }
 
 
@@ -64,28 +67,24 @@ html {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 70%; /* Занимает всю ширину окна */
+    width: 70%;
     background-color: #302e2e;
     color: white;
     height: 32px;
     text-align: center;
-    padding: 24px 15%; /* Отступы по 15% с каждой стороны */
-    box-shadow: 0px -8px 30px rgba(0, 0, 0, 0.55);
-    /*margin-top: 24px;*/
-    position: relative; /* Убедитесь, что footer не фиксированный */
-    z-index: 1; /* Чтобы footer был поверх контента */
+    padding: 24px 15%;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.55);
+    position: relative;
+    z-index: 1;
 }
-
-
-
 
 
 /* Отступ для контента, чтобы он начинался под header */
 .content-wrapper {
-    padding-top: 24px; /* Высота header + дополнительный отступ */
+    padding-top: 24px;
     padding-left: 15%;
     padding-right: 15%;
-    box-sizing: border-box; /* Учесть padding в общей ширине */
+    box-sizing: border-box;
     flex: 1;
 }
 
@@ -136,23 +135,23 @@ html {
     align-items: center;
 }
 
-.far{
+.far, .fa, .fab, .fas{
     font-size: 24px;
     color: white;
 }
 
-.fab{
+.fas{
     font-size: 24px;
     color: white;
 }
 
-.far:hover {
+.far:hover, .fa:hover, .fab:hover, .fas:hover{
     color: var(--secondary-color);
 }
 
-.fab:hover {
-    color: var(--secondary-color);
-}
+/*.fab:hover {*/
+/*    color: var(--secondary-color);*/
+/*}*/
 
 a {
     text-decoration: none;
@@ -205,8 +204,8 @@ hr {
 
 
 .second-font {
-    font-family: var(--second-font-family); /* Основной шрифт */
-    font-weight: 700;                       /* Увеличенная жирность (толще) */
+    font-family: var(--second-font-family);
+    font-weight: 700;
     letter-spacing: 0.0em;
 }
 

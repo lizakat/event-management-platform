@@ -48,17 +48,17 @@ async def read_register(request: Request):
 async def read_register(request: Request):
     return templates.TemplateResponse("notification-password.html", {"request": request, "title": "Восстановление пароля"})
 
-@app.get("/login")
+@app.get("/login", name="login")
 async def read_root(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request, "title": "Вход"})
+    return templates.TemplateResponse("login.html", {"request": request, "title": "Вход", "current_page": "login"})
 
 @app.get("/main-page")
 async def read_root(request: Request):
     return templates.TemplateResponse("main-page.html", {"request": request, "title": "Главная"})
 
-@app.get("/profile")
+@app.get("/profile", name="profile")
 async def read_root(request: Request):
-    return templates.TemplateResponse("profile.html", {"request": request, "title": "Аккаунт"})
+    return templates.TemplateResponse("profile.html", {"request": request, 'title': "Аккаунт", "current_page": "profile"})
 
 
 @app.get("/create-event")
