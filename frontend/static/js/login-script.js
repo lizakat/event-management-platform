@@ -1,24 +1,72 @@
 document.addEventListener('DOMContentLoaded', function () {
-    if (window.location.pathname === '/') {
+    const pathname = window.location.pathname;
+
+    if (pathname === '/') {
         const toggleSwitch = document.getElementById('toggleSwitch');
+        const username = document.getElementById('username');
+        const surname = document.getElementById('surname');
+        const nextButton = document.getElementById('nextButton');
+
         if (toggleSwitch) {
-            toggleSwitch.addEventListener('click', function() {
+            toggleSwitch.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         }
-    }
 
-    if (window.location.pathname === '/') {
-        document.getElementById('nextButton').addEventListener('click', function() {
-            const name = document.getElementById('username').value;
-            const surname = document.getElementById('surname').value;
-            const role_id = document.getElementById('toggleSwitch').classList.contains('active') ? 1 : 2;
+        function validateField(field, minLength = 2, maxLength = 20) {
+            const value = field.value.trim();
+            const errorMessage = field.parentElement.querySelector('.error-message');
+            const nameRegex = /^[A-Za-zА-Яа-яЁё]+$/;
 
-            window.location.href = `/register?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&role_id=${role_id}`;
+            if (!errorMessage) return false;
+
+            if (!value) {
+                errorMessage.textContent = "Заполните это поле";
+                field.classList.add("input-error");
+                return false;
+            }
+
+            if (value.length < minLength) {
+                errorMessage.textContent = `Минимальная длина — ${minLength} символа`;
+                field.classList.add("input-error");
+                return false;
+            }
+            if (value.length > maxLength) {
+                errorMessage.textContent = `Максимальная длина — ${maxLength} символов`;
+                field.classList.add("input-error");
+                return false;
+            }
+            if (!nameRegex.test(value)) {
+                errorMessage.textContent = "Используйте только буквы";
+                field.classList.add("input-error");
+                return false;
+            }
+            errorMessage.textContent = "";
+            field.classList.remove("input-error");
+            return true;
+        }
+
+        function validateForm() {
+            const isUsernameValid = validateField(username);
+            const isSurnameValid = validateField(surname);
+            return isUsernameValid && isSurnameValid;
+        }
+
+        nextButton.addEventListener("click", function () {
+            if (validateForm()) {
+                const nameValue = encodeURIComponent(username.value.trim());
+                const surnameValue = encodeURIComponent(surname.value.trim());
+                const role_id = toggleSwitch.classList.contains('active') ? 1 : 2;
+                window.location.href = `/register?name=${nameValue}&surname=${surnameValue}&role_id=${role_id}`;
+            }
+        });
+
+        [username, surname].forEach(field => {
+            field.addEventListener("input", () => validateField(field));
         });
     }
 
-    if (window.location.pathname === '/register') {
+    if (pathname === '/register') {
         document.getElementById('registerButton').addEventListener('click', function() {
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
@@ -65,26 +113,25 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (window.location.pathname === '/login') {
+    if (pathname === '/login') {
         document.getElementById('button').addEventListener('click', function() {
             window.location.href = '/main-page';
         });
     }
 
-
-    if (window.location.pathname === '/forgot-password') {
+    if (pathname === '/forgot-password') {
         document.getElementById('button').addEventListener('click', function() {
             window.location.href = '/notification-password';
         });
     }
 
-    if (window.location.pathname === '/new-password') {
+    if (pathname === '/new-password') {
         document.getElementById('button').addEventListener('click', function() {
             window.location.href = '/login';
         });
     }
 
-    if (window.location.pathname === '/notification-password') {
+    if (pathname === '/notification-password') {
         document.getElementById('button').addEventListener('click', function() {
             window.location.href = '/new-password';
         });
