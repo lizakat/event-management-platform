@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-});
 
-document.addEventListener('DOMContentLoaded', function () {
     if (window.location.pathname === '/') {
         document.getElementById('nextButton').addEventListener('click', function() {
             const name = document.getElementById('username').value;
@@ -19,9 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = `/register?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&role_id=${role_id}`;
         });
     }
-});
 
-document.addEventListener('DOMContentLoaded', function () {
     if (window.location.pathname === '/register') {
         document.getElementById('registerButton').addEventListener('click', function() {
             const email = document.getElementById('register-email').value;
@@ -68,13 +64,29 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Code resent!');
         });
     }
-});
+
+    if (window.location.pathname === '/login') {
+        document.getElementById('button').addEventListener('click', function() {
+            window.location.href = '/main-page';
+        });
+    }
 
 
-document.addEventListener('DOMContentLoaded', function () {
     if (window.location.pathname === '/forgot-password') {
-        document.querySelector('.button').addEventListener('click', function() {
+        document.getElementById('button').addEventListener('click', function() {
             window.location.href = '/notification-password';
+        });
+    }
+
+    if (window.location.pathname === '/new-password') {
+        document.getElementById('button').addEventListener('click', function() {
+            window.location.href = '/login';
+        });
+    }
+
+    if (window.location.pathname === '/notification-password') {
+        document.getElementById('button').addEventListener('click', function() {
+            window.location.href = '/new-password';
         });
     }
 });
