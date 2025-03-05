@@ -19,3 +19,9 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+
+def check_if_email_exists(db: Session, email: str) -> bool:
+    user = db.query(models.User).filter(models.User.email == email).first()
+    return user is not None
