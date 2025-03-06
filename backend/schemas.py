@@ -192,3 +192,11 @@ class NotificationCreate(NotificationBase):
 class NotificationResponse(NotificationBase):
     id: int
     created_at: datetime
+
+
+class GenerateCodeRequest(BaseModel):
+    email: EmailStr
+
+class ValidateCodeRequest(BaseModel):
+    email: EmailStr
+    code: str

@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         async function validateCodeOnServer(email, code) {
             try {
-                const response = await fetch('/validate-code', {
+                const response = await fetch('/auth/validate-code', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         async function isEmailRegistered(email) {
             try {
-                const response = await fetch(`/check-email?email=${encodeURIComponent(email)}`);
+                const response = await fetch(`/auth/check-email?email=${encodeURIComponent(email)}`);
                 const data = await response.json();
                 return data.exists;
             } catch (error) {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
 
                 // Отправляем данные на сервер
-                fetch('/users/', {
+                fetch('/users/create-user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = emailField.value.trim();
 
             try {
-                const response = await fetch('/generate-code', {
+                const response = await fetch('/auth/generate-code', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
