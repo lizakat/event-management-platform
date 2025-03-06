@@ -146,3 +146,12 @@ class Notification(Base):
 
     user = relationship("User", back_populates="notifications")
     notification_type = relationship("NotificationType", back_populates="notifications")
+
+
+class VerificationCode(Base):
+    __tablename__ = "verification_codes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(Text, unique=True, nullable=False)
+    code = Column(Text, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now())

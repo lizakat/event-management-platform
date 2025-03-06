@@ -22,6 +22,7 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 
 
-def check_if_email_exists(db: Session, email: str) -> bool:
-    user = db.query(models.User).filter(models.User.email == email).first()
-    return user is not None
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.email == email).first()
+
+

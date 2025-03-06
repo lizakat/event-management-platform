@@ -66,6 +66,9 @@ class UserResponse(UserBase):
     role_id: Optional[int] = None
     created_at: datetime
 
+class UserLogin(UserBase):
+    email: EmailStr
+    password: str
 
 class EventBase(BaseModel):
     title: str

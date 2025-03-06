@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const confirmPasswordField = document.getElementById('register-confirm-password');
         const codeField = document.getElementById('register-code');
 
-        // Функция для проверки email
         function validateEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const errorMessage = emailField.parentElement.querySelector('.error-message');
@@ -93,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
 
-        // Функция для проверки пароля
         function validatePassword(password) {
             const errorMessage = passwordField.parentElement.querySelector('.error-message');
 
@@ -112,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
 
-        // Функция для проверки подтверждения пароля
         function validateConfirmPassword(password, confirmPassword) {
             const errorMessage = confirmPasswordField.parentElement.querySelector('.error-message');
 
@@ -131,8 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
 
-        // Функция для проверки кода
-        function validateCode(code, length = 6) {
+        function validateCode(code) {
             const errorMessage = document.querySelector('#code-container .error-message');
 
             if (!code) {
@@ -140,12 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 codeField.classList.add('input-error');
                 return false;
             }
-            if (code.length < length) {
-                errorMessage.textContent = 'Код должен быть 6 символов';
-                codeField.classList.add('input-error');
-                return false;
-            }
-            // Здесь можно добавить проверку кода на сервере, если нужно
+
             errorMessage.textContent = '';
             codeField.classList.remove('input-error');
             return true;
@@ -161,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     body: JSON.stringify({ email, code }),
                 });
                 const data = await response.json();
-                return data.valid; // true, если код верный
+                return data.valid;
             } catch (error) {
                 console.error('Ошибка при проверке кода:', error);
                 return false;
@@ -196,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 const response = await fetch(`/check-email?email=${encodeURIComponent(email)}`);
                 const data = await response.json();
-                return data.exists; // true, если email уже зарегистрирован
+                return data.exists;
             } catch (error) {
                 console.error('Ошибка при проверке email:', error);
                 return false;
@@ -259,12 +250,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    alert(error.message); // Показываем ошибку пользователю
+                    alert(error.message);
                 });
             }
         });
 
-        // Обработчик для кнопки "Прислать код"
        document.querySelector('.button-code').addEventListener('click', async function () {
             const email = emailField.value.trim();
 
@@ -285,7 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Валидация при вводе данных
         emailField.addEventListener('input', () => validateEmail(emailField.value.trim()));
         passwordField.addEventListener('input', () => validatePassword(passwordField.value.trim()));
         confirmPasswordField.addEventListener('input', () => {
@@ -295,6 +284,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (pathname === '/login') {
+
+        const emailField = document.getElementById('register-email');
+        const passwordField = document.getElementById('register-password');
+
         document.getElementById('button').addEventListener('click', function() {
             window.location.href = '/main-page';
         });

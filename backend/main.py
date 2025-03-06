@@ -13,6 +13,8 @@ from backend import models, schemas, crud
 from backend.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
+from backend.schemas import UserLogin
+
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
@@ -104,11 +106,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Пользователь с таким email уже зарегистрирован")
     return crud.create_user(db=db, user=user)
 
-@app.post("/users/")
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    return crud.create_user(db=db, user=user)
-
-
 
 # Хранение кодов в памяти (в реальном приложении используйте базу данных)
 codes_db: Dict[str, str] = {}  # email -> code
@@ -155,3 +152,20 @@ async def validate_code(request: ValidateCodeRequest):
         return {"valid": True}
     else:
         return {"valid": False}
+
+@app.post("/login")
+async def login(request: UserLogin):
+    email = request.email
+    password = request.password
+
+    # Проверяем, существует ли пользователь
+    user = db_user.get(email)
+    if not user:
+        raise HTTPException(status_code=400, detail="Пользователь с таким email не найден")
+
+    # Проверяем пароль
+    if user["password"] != password:  # В реальном приложении используйте хеширование и проверку хешей
+        raise HTTPException(status_code=400, detail="Неверный пароль")
+
+    # Если всё верно, возвращаем успешный ответ
+    return {"success": True, "message": "Вход выполнен успешно"}
