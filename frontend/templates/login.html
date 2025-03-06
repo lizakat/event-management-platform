@@ -10,7 +10,8 @@
         <div class="form-container">
             <div class="input-field">
                 <label class="input-label" for="login-email">Введите email</label>
-                <input class="input" type="text" id="login-email" placeholder="kbpf1811@gmail.com" />
+                <input class="input" type="email" id="login-email" placeholder="kbpf1811@gmail.com" />
+                <span class="error-message"></span>
             </div>
             <div class="input-field">
                 <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center">
@@ -18,6 +19,7 @@
                     <a href="/forgot-password" class="forgot-password-link" style="font-style: italic">Забыли?</a>
                 </div>
                 <input class="input" type="text" id="login-password" placeholder="qwerty1811" />
+                <span class="error-message"></span>
             </div>
             <div class="checkbox">
                 <input type="checkbox" id="login-scales" name="login-scales" checked />

@@ -38,8 +38,8 @@ class RegistrationStatusResponse(RegistrationStatusBase):
 
 class UserBase(BaseModel):
     email: str
-    name: str
-    surname: str
+    name: Optional[str] = None
+    surname: Optional[str] = None
     avatar: Optional[str] = None
     birthdate: Optional[date] = None
     location: Optional[Dict] = None
