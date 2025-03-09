@@ -21,11 +21,11 @@ def edit_profile(user_id: int, user_update: schemas.UserUpdate, db: Session = De
     return crud.update_user(db=db, db_user=db_user, user_update=user_update)
 
 
-@router.get("/user-registrations", response_model=list[schemas.RegistrationResponse])
-def get_user_registrations(user_id: int, db: Session = Depends(database.get_db)):
-    return crud.get_user_registrations(db, user_id)
+# @router.get("/user-registrations", response_model=list[schemas.RegistrationResponse])
+# def get_user_registrations(user_id: int, db: Session = Depends(database.get_db)):
+#     return crud.get_user_registrations(db, user_id)
 
-
-@router.post("/create-user")
-def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
-    return crud.create_user(db=db, user=user)
+#
+# @router.post("/create-user")
+# def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
+#     return crud.create_user(db=db, user=user)

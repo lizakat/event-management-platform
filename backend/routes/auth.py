@@ -28,6 +28,7 @@ def validate_code(request: schemas.ValidateCodeRequest, db: Session = Depends(da
 
     return {"valid": False}
 
+
 @router.post("/register", response_model=schemas.UserResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
     if crud.get_user_by_email(db, user.email):
@@ -37,9 +38,6 @@ def register(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
 
 @router.post("/login")
 def login(user: schemas.UserLogin, db: Session = Depends(database.get_db)):
-    # Выводим лог для проверки данных, которые пришли на сервер
-    print("Received login data:", user.dict())
-
     db_user = crud.get_user_by_email(db, user.email)
     if not db_user:
         raise HTTPException(status_code=400, detail="Пользователь с таким email не найден")

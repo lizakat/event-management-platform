@@ -228,8 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     password: password,
                 };
 
-                // Отправляем данные на сервер
-                fetch('/users/create-user', {
+                fetch('/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -291,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const passwordField = document.getElementById('login-password');
         const errorMessage = document.querySelector('.error-message');
 
-        // Функция для валидации email
         function validateEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email) {
@@ -309,7 +307,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
 
-        // Функция для валидации пароля
         function validatePassword(password) {
             if (!password) {
                 errorMessage.textContent = 'Введите пароль';
@@ -321,19 +318,17 @@ document.addEventListener('DOMContentLoaded', function () {
             return true;
         }
 
-        // Обработчик отправки формы
         loginButton.addEventListener('click', async (event) => {
-            event.preventDefault();  // Предотвращаем стандартное поведение формы
+            event.preventDefault();
 
             const email = emailField.value.trim();
             const password = passwordField.value.trim();
 
-            // Валидация email и пароля
             const isEmailValid = validateEmail(email);
             const isPasswordValid = validatePassword(password);
 
             if (!isEmailValid || !isPasswordValid) {
-                return;  // Если что-то невалидно, выходим из функции
+                return;
             }
 
             const loginData = {
@@ -342,7 +337,6 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             try {
-                // Отправляем POST-запрос на сервер
                 const response = await fetch('/auth/login', {
                     method: 'POST',
                     headers: {
@@ -353,24 +347,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.error("Ошибка с сервером:", errorData);  // Показываем полный объект ошибки
+                    console.error("Ошибка с сервером:", errorData);
                     throw new Error(errorData.detail || 'Ошибка при входе');
                 }
 
                 const data = await response.json();
                 console.log('Успешный вход:', data);
-                window.location.href = '/main-page';  // Перенаправление на главную страницу
+                window.location.href = '/main-page';
             } catch (error) {
                 console.error('Ошибка:', error);
-                errorMessage.textContent = error.message;  // Показываем ошибку на странице
+                errorMessage.textContent = error.message;
             }
         });
 
 
-        // Валидация email при вводе
         emailField.addEventListener('input', () => validateEmail(emailField.value.trim()));
-
-        // Валидация пароля при вводе
         passwordField.addEventListener('input', () => validatePassword(passwordField.value.trim()));
     }
 
