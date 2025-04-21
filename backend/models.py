@@ -47,11 +47,12 @@ class User(Base):
     role = relationship("Role", back_populates="users")
     registrations = relationship("Registration", back_populates="user", cascade="all, delete")
     favourite_events = relationship("FavouriteEvent", back_populates="user", cascade="all, delete")
-    favourite_organizers = relationship("FavouriteOrganizers", foreign_keys="[FavouriteOrganizers.user_id]", back_populates="user", cascade="all, delete")
-    favourite_organizers_as_organizer = relationship("FavouriteOrganizers", foreign_keys="[FavouriteOrganizers.organizer_id]", back_populates="favourite_organizers_as_organizer", cascade="all, delete")
+    favourite_organizers = relationship("FavouriteOrganizer", foreign_keys="[FavouriteOrganizer.user_id]", back_populates="user", cascade="all, delete")
+    favourite_organizers_as_organizer = relationship("FavouriteOrganizer", foreign_keys="[FavouriteOrganizer.organizer_id]", back_populates="favourite_organizers_as_organizer", cascade="all, delete")
     user_categories = relationship("UserCategory", back_populates="user", cascade="all, delete")
     notifications = relationship("Notification", back_populates="user", cascade="all, delete")
-
+    refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete")
+    
 class Event(Base):
     __tablename__ = "events"
 
@@ -95,7 +96,7 @@ class FavouriteEvent(Base):
     user = relationship("User", back_populates="favourite_events")
     event = relationship("Event", back_populates="favourite_events")
 
-class FavouriteOrganizers(Base):
+class FavouriteOrganizer(Base):
     __tablename__ = "favourite_organizers"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -147,7 +148,6 @@ class Notification(Base):
     user = relationship("User", back_populates="notifications")
     notification_type = relationship("NotificationType", back_populates="notifications")
 
-
 class VerificationCode(Base):
     __tablename__ = "verification_codes"
 
@@ -155,3 +155,14 @@ class VerificationCode(Base):
     email = Column(Text, unique=True, nullable=False)
     code = Column(Text, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now())
+
+class RefreshToken(Base):
+    __tablename__ = "refresh_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    token = Column(Text, nullable=False, unique=True)
+    expires_at = Column(TIMESTAMP, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
+    user = relationship("User", back_populates="refresh_tokens")

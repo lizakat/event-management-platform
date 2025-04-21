@@ -9,7 +9,12 @@
     <!--<div class="favourite-events-title"  style="margin-top: 80px; text-align: center;" >
         <h1 class="second-font" style="margin: 0px">Любимые события</h1>
     </div>-->
-    <h4 style="margin-top: 80px;">Аккаунт/Регистрации</h4>
+    <h4 style="margin-top: 80px;">Аккаунт/Избранное</h4>
+    <div class="fav-switch-buttons"  >
+        <button type="button" class="fav-switch-button-na" id="fav-switch-button-event">Избранные мероприятия</button>
+        <button type="button" class="fav-switch-button" id="fav-switch-button-org">Избранные организаторы</button>
+    </div>
+
     <section class="favourite-event-list">
         <article class="event">
             <img src="../static/images/test_image.jpg" alt="Описание товара 1">
@@ -25,10 +30,7 @@
                     <p class="event-location">г. Минск, ул. Советская 15</p>
                 </div>
                 <p class="event-price">Cost: $29.99</p>
-                <div class="button-container">
-                    <button type="button" class="button add-to-cart">Узнать подробнее...</button>
-                    <button type="button" class="button cancel-registration">Отменить регистрацию</button>
-                </div>
+                <button type="button" class="button add-to-cart">Узнать подробнее...</button>
             </div>
         </article>
         <article class="event">
@@ -45,10 +47,24 @@
                     <p class="event-location">г. Минск, ул. Советская 15</p>
                 </div>
                 <p class="event-price">Cost: $29.99</p>
-                <div class="button-container">
-                    <button type="button" class="button add-to-cart">Узнать подробнее...</button>
-                    <button type="button" class="button cancel-registration">Отменить регистрацию</button>
+                <button type="button" class="button add-to-cart">Больше...</button>
+            </div>
+        </article>
+        <article class="event">
+            <img src="../static/images/test_image.jpg" alt="Описание товара 1">
+            <div class="event-details">
+                <div class="title-fav">
+                    <h2 class="event-title">214 описание макс</h2>
+                    <a href="#favourite"><i class="far fa-heart" style="color: #757575";></i></a>
                 </div>
+                <p class="event-description">ММММММММММММММММММММММММММММММММММММММММММ ММММММММММММММММММММММММММММММММММММММ</p>
+                <div class="event-date-location">
+                    <p class="event-date">18:00 12.12.2024</p>
+                    <span class="separator"> | </span>
+                    <p class="event-location">г. Минск, ул. Советская 15</p>
+                </div>
+                <p class="event-price">Cost: $29.99</p>
+                <button type="button" class="button add-to-cart">Больше...</button>
             </div>
         </article>
         <div class="pagination">

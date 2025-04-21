@@ -287,3 +287,50 @@ input[type='date'] {
 .cancel-registration:hover {
     background: #c8c8c8;
 }
+
+
+.fav-switch-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 24px;
+}
+
+.fav-switch-button{
+    background: var(--primary-color);
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease;
+    width: 30%;
+
+}
+
+
+.fav-switch-button:hover {
+    background: var(--primary-color-hover);
+}
+
+.fav-switch-button-na{
+    background: var(--gray-background-color);
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease;
+    width: 30%;
+
+}
+
+
+.fav-switch-button-na:hover {
+    background: #c8c8c8;
+}

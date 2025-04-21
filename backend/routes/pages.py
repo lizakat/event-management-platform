@@ -43,6 +43,10 @@ async def read_event_page(request: Request):
 async def read_favourite_events(request: Request):
     return templates.TemplateResponse("favourite-events.html", {"request": request, "title": "Любимые события"})
 
+@router.get("/favourite-org")
+async def read_favourite_org(request: Request):
+    return templates.TemplateResponse("favourite-org.html", {"request": request, "title": "Любимые организаторы"})
+
 @router.get("/user-registrations")
 async def read_user_registrations(request: Request):
     return templates.TemplateResponse("user-registrations.html", {"request": request, "title": "Мои регистрации"})
