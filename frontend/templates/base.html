@@ -13,6 +13,10 @@
     {% block styles %}{% endblock %}
 </head>
 <body>
+    <div style="display: none;">
+        DEBUG: current_page = {{ current_page }}
+        DEBUG: request.path = {{ request.url.path }}
+    </div>
     <div class="page-wrapper">
         <header class="navbar">
             <div class="logo">
@@ -24,9 +28,11 @@
             <ul class="menu-items">
                 <li><a href="/favourite-events"><i class="far fa-heart"></i></a></li>
                 <li><a href="/notifications"><i class="far fa-bell"></i></a></li>
-                <li><a href="{{ url_for('login' if current_page == 'profile' else 'profile') }}">
+                <li>
+                    <a href="{{ '/login' if current_page == 'profile' else '/profile' }}">
                         <i class="{{ 'fa fa-sign-out-alt' if current_page == 'profile' else 'far fa-user' }}"></i>
-                </a></li>
+                    </a>
+                </li>
             </ul>
         </header>
         <div class="content-wrapper">

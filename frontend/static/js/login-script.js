@@ -283,13 +283,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (pathname === '/login') {
-
         const loginButton = document.getElementById('button');
-
         const emailField = document.getElementById('login-email');
         const passwordField = document.getElementById('login-password');
         const errorMessage = document.querySelector('.error-message');
-
+    
         function validateEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email) {
@@ -306,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
             emailField.classList.remove('input-error');
             return true;
         }
-
+    
         function validatePassword(password) {
             if (!password) {
                 errorMessage.textContent = 'Введите пароль';
@@ -317,50 +315,53 @@ document.addEventListener('DOMContentLoaded', function () {
             passwordField.classList.remove('input-error');
             return true;
         }
-
+    
         loginButton.addEventListener('click', async (event) => {
             event.preventDefault();
-
+    
             const email = emailField.value.trim();
             const password = passwordField.value.trim();
-
+    
             const isEmailValid = validateEmail(email);
             const isPasswordValid = validatePassword(password);
-
+    
             if (!isEmailValid || !isPasswordValid) {
                 return;
             }
-
-            const loginData = {
-                email: email,
-                password: password
-            };
-
+    
             try {
                 const response = await fetch('/auth/login', {
                     method: 'POST',
+                    credentials: 'include', // Важно для работы с куками
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(loginData),
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
                 });
-
+    
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.error("Ошибка с сервером:", errorData);
                     throw new Error(errorData.detail || 'Ошибка при входе');
                 }
-
+    
                 const data = await response.json();
-                console.log('Успешный вход:', data);
+                
+                // Сохраняем токен в localStorage (если нужно для SPA)
+                if (data.access_token) {
+                    localStorage.setItem('access_token', data.access_token);
+                }
+    
+                // Перенаправляем на защищенную страницу
                 window.location.href = '/main-page';
             } catch (error) {
                 console.error('Ошибка:', error);
                 errorMessage.textContent = error.message;
             }
         });
-
-
+    
         emailField.addEventListener('input', () => validateEmail(emailField.value.trim()));
         passwordField.addEventListener('input', () => validatePassword(passwordField.value.trim()));
     }

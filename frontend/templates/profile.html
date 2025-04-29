@@ -19,28 +19,29 @@
             <!--<h1 class="second-font">Аккаунт</h1>-->
             <hr style="margin-top: 0;">
 
+            <!-- profile.html -->
             <div class="user-info">
-                <img src="../static/images/avatar_1.jfif" alt="Фото профиля">
+                <img src="{{ user.avatar or '/static/images/default-avatar.jpg' }}" alt="Фото профиля">
                 <div class="user-details">
-                    <h2 class="user-name">Елизавета Катковская</h2>
-                    <p class="user-birthdate">Дата рождения: 18.11.2003</p>
-                    <p class="user-email">Email: kbpf1911@gmail.com</p>
-                    <p class="user-phone">Моб. телефон: + 375 (33) 360-48-20</p>
-                    <p class="user-location">Адрес: г. Минск, ул. Советская 15</p>
+                    <h2 class="user-name">{{ user.name }} {{ user.surname }}</h2>
+                    <p class="user-birthdate">Дата рождения: {{ user.birthdate or 'Не указана' }}</p>
+                    <p class="user-email">Email: {{ user.email }}</p>
+                    <p class="user-phone">Моб. телефон: {{ user.phone or 'Не указан' }}</p>
+                    <p class="user-location">Адрес: {{ user.location or 'Не указан' }}</p>
                 </div>
             </div>
-            <hr>
+
             <div class="favourite-tags">
                 <h3>Любимые категории</h3>
-                <label class="fav-tag">sport</label>
-                <label class="fav-tag">sport</label>
-                <label class="fav-tag">sport</label>
-                <label class="fav-tag">sport</label>
-                <label class="fav-tag">sport</label>
+                {% for tag in user.favorite_tags %}
+                    <label class="fav-tag">{{ tag }}</label>
+                {% endfor %}
             </div>
-            <hr>
+
             <div class="statistic">
                 <h3>Статистика посещений</h3>
+                <p>Посещено мероприятий: {{ user.statistics.events_visited }}</p>
+                <p>Последнее посещение: {{ user.statistics.last_visit or 'Нет данных' }}</p>
             </div>
         </div>
     </div>

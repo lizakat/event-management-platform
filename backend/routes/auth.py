@@ -1,8 +1,12 @@
 import secrets
-
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from datetime import timedelta, datetime
+from jose import JWTError, jwt
+
 from backend import database, schemas, crud
+from backend.config import settings
 
 router = APIRouter()
 
@@ -36,17 +40,6 @@ def register(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
     return crud.create_user(db=db, user=user)
 
 
-@router.post("/login")
-def login(user: schemas.UserLogin, db: Session = Depends(database.get_db)):
-    db_user = crud.get_user_by_email(db, user.email)
-    if not db_user:
-        raise HTTPException(status_code=400, detail="Пользователь с таким email не найден")
-
-    if not crud.verify_password(user.password, db_user.password):
-        raise HTTPException(status_code=400, detail="Неверный email или пароль")
-
-    return {"message": "Успешный вход", "user_id": db_user.id}
-
 
 @router.get("/check-email")
 async def check_email(email: str, db: Session = Depends(database.get_db)):
@@ -54,3 +47,62 @@ async def check_email(email: str, db: Session = Depends(database.get_db)):
     if user:
         return {"exists": True}
     return {"exists": False}
+
+
+@router.post("/login")
+def login(
+        response: Response,
+        user: schemas.UserLogin,
+        db: Session = Depends(database.get_db)
+):
+    db_user = crud.get_user_by_email(db, user.email)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="Пользователь с таким email не найден")
+
+    if not crud.verify_password(user.password, db_user.password):
+        raise HTTPException(status_code=400, detail="Неверный email или пароль")
+
+    # Создаем JWT токен
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": db_user.email},
+        expires_delta=access_token_expires
+    )
+
+    # Устанавливаем HTTP-only куку
+    response.set_cookie(
+        key="access_token",
+        value=f"Bearer {access_token}",
+        httponly=True,
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        secure=True,  # Для HTTPS
+        samesite="lax"
+    )
+
+    return {
+        "message": "Успешный вход",
+        "user_id": db_user.id,
+        "access_token": access_token,  # Для localStorage
+        "token_type": "bearer"
+    }
+
+
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"message": "Успешный выход"}
+
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(
+        to_encode,
+        settings.SECRET_KEY,
+        algorithm=settings.ALGORITHM
+    )
+    return encoded_jwt
