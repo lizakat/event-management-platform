@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
-from datetime import datetime, date
-from typing import Optional, Dict
+from datetime import datetime, date, time
+from typing import Optional, Dict, List
 
 
 # class RoleBase(BaseModel):
@@ -74,20 +74,37 @@ class UserLogin(UserBase):
     email: EmailStr
     password: str
 
-# class EventBase(BaseModel):
-#     title: str
-#     description: Optional[str] = None
-#     location: Optional[Dict] = None
-#     date: date
-#     max_participants: Optional[int] = None
-#     price: Optional[float] = None
-#     image: Optional[str] = None
-#
-#
-# class EventCreate(EventBase):
-#     organizer_id: int
-#
-#
+
+class UserStatistics(BaseModel):
+    events_visited: int
+    last_visit: str
+    statuses: Dict[str, int]
+
+class UserProfileData(BaseModel):
+    name: str
+    surname: str
+    email: str
+    phone: str
+    location: str
+    birthdate: str
+    statistics: UserStatistics
+    favorite_tags: List[str]
+
+
+class EventBase(BaseModel):
+     title: str
+     description: Optional[str] = None
+     location: Optional[Dict] = None
+     date: date
+     time: time
+     max_participants: Optional[int] = None
+     price: Optional[float] = None
+     image: Optional[str] = None
+
+class EventCreate(EventBase):
+     organizer_id: int
+
+
 # class EventUpdate(BaseModel):
 #     title: Optional[str] = None
 #     description: Optional[str] = None

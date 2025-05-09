@@ -1,27 +1,29 @@
 {% extends "base.html" %}
 
 {% block styles %}
-    <link rel="stylesheet" href="../static/css/profile-styles.css">
+    <link rel="stylesheet" href="/static/css/profile-styles.css">
 {% endblock %}
 
 {% block content %}
 
     <div class="all">
-        <div ul class="menu">
-            <li title="home"><a href="#" class="menu-button home">Обо мне</a></li>
-            <li title="Registrations"><a href="/user-registrations" class="registrations">Регистрации</a></li>
-            <li title="Edit profile"><a href="/edit-profile" class="edit-profile">Изменить профиль</a></li>
-            <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+        <div class="menu">
+            {% if user.role_id == 1 %}
+                <li title="My events"><a href="/my-events" class="my-events">Мои события</a></li>
+                <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
+            {% else %}
+                <li title="Registrations"><a href="/user-registrations" class="registrations">Регистрации</a></li>
+                <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
+            {% endif %}
         </div>
-    
-        <div class="profile">
 
-            <!--<h1 class="second-font">Аккаунт</h1>-->
+        <div class="profile">
             <hr style="margin-top: 0;">
 
-            <!-- profile.html -->
             <div class="user-info">
-                <img src="{{ user.avatar or '/static/images/default-avatar.jpg' }}" alt="Фото профиля">
+                <img src="{{ user.avatar or '/static/images/avatar_1.jfif' }}" alt="Фото профиля">
                 <div class="user-details">
                     <h2 class="user-name">{{ user.name }} {{ user.surname }}</h2>
                     <p class="user-birthdate">Дата рождения: {{ user.birthdate or 'Не указана' }}</p>
@@ -32,14 +34,20 @@
             </div>
 
             <div class="favourite-tags">
-                <h3>Любимые категории</h3>
-                {% for tag in user.favorite_tags %}
-                    <label class="fav-tag">{{ tag }}</label>
-                {% endfor %}
+                <h3 style="margin-bottom: 16px; margin-top:16px">Любимые категории</h3>
+                <div class="tags-container">
+                    {% if user.favorite_tags %}
+                        {% for tag in user.favorite_tags %}
+                            <label class="fav-tag">{{ tag }}</label>
+                        {% endfor %}
+                    {% else %}
+                        <p>Нет любимых категорий.</p>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="statistic">
-                <h3>Статистика посещений</h3>
+                <h3 style="margin-bottom: 16px; margin-top:0px">Статистика посещений</h3>
                 <p>Посещено мероприятий: {{ user.statistics.events_visited }}</p>
                 <p>Последнее посещение: {{ user.statistics.last_visit or 'Нет данных' }}</p>
             </div>

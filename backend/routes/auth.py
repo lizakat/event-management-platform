@@ -1,35 +1,27 @@
 import secrets
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta, datetime
-from jose import JWTError, jwt
-
+from backend.services import auth
 from backend import database, schemas, crud
 from backend.config import settings
-
+from fastapi.responses import RedirectResponse
 router = APIRouter()
 
 
 @router.post("/generate-code")
 def generate_code(request: schemas.GenerateCodeRequest, db: Session = Depends(database.get_db)):
     email = request.email
-    code = str(secrets.randbelow(900000) + 100000)
-    crud.save_verification_code(db, email, code)
-
+    code = auth.generate_verification_code(db, email)
     print(f"Код для {email}: {code}")
-
     return {"success": True, "message": "Код отправлен"}
 
 
 @router.post("/validate-code")
 def validate_code(request: schemas.ValidateCodeRequest, db: Session = Depends(database.get_db)):
     email, code = request.email, request.code
-    db_code = crud.get_verification_code(db, email)
-
-    if db_code and db_code.code == code:
+    if auth.validate_verification_code(db,email,code):
         return {"valid": True}
-
     return {"valid": False}
 
 
@@ -64,7 +56,7 @@ def login(
 
     # Создаем JWT токен
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
+    access_token = auth.create_access_token(
         data={"sub": db_user.email},
         expires_delta=access_token_expires
     )
@@ -74,11 +66,12 @@ def login(
         key="access_token",
         value=f"Bearer {access_token}",
         httponly=True,
+        path="/",
         max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-        secure=True,  # Для HTTPS
+        secure=False,  # Для HTTPS
         samesite="lax"
     )
-
+    print("кУКА УСТАНОВЛЕНА")
     return {
         "message": "Успешный вход",
         "user_id": db_user.id,
@@ -88,21 +81,17 @@ def login(
 
 
 @router.post("/logout")
-def logout(response: Response):
-    response.delete_cookie("access_token")
-    return {"message": "Успешный выход"}
-
-
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(
-        to_encode,
-        settings.SECRET_KEY,
-        algorithm=settings.ALGORITHM
+async def logout():
+    response = RedirectResponse(
+        url="/login",
+        status_code=status.HTTP_303_SEE_OTHER
     )
-    return encoded_jwt
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=False,
+        samesite="lax",
+        path="/"
+    )
+    return response
+

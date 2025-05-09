@@ -1,44 +1,68 @@
 {% extends "base.html" %}
 
 {% block styles %}
-    <link rel="stylesheet" href="../static/css/profile-styles.css">
-    <link rel="stylesheet" href="../static/css/edit-profile-styles.css">
+    <link rel="stylesheet" href="/static/css/profile-styles.css">
 {% endblock %}
 
 {% block content %}
-    <div class="all">
-        <ul class="menu">
-            <li title="home"><a href="#" class="menu-button home">Menu</a></li>
-            <li title="Favourite"><a href="/favourite-events" class="favourite-events">Favourite events</a></li>
-            <li title="pencil"><a href="#" class="pencil">Pencil</a></li>
-            <li title="about"><a href="#" class="active about">About</a></li>
-            <li title="archive"><a href="#" class="archive">Archive</a></li>
-            <li title="contact"><a href="#" class="contact">Contact</a></li>
-        </div>
-        <form id="edit-profile">
-            <div class="edit-profile">
-                <div class="input-field">
-                    <label class="input-label" for="change-name">Enter your name</label>
-                    <input class="input" type="text" id="change-name" placeholder="Elizaveta" />
+
+<div class="all">
+    <div class="menu">
+        <li><a href="/profile" class="menu-button home">Назад</a></li>
+    </div>
+
+    <div class="profile">
+        <hr style="margin-top: 0;">
+
+        <form method="POST" action="/users/edit-profile">
+            <div class="user-info">
+                <div class="avatar-container">
+                    <img src="{{ user.avatar_url if user and user.avatar_url else '/static/images/avatar_1.jfif' }}"
+                         alt="Фото профиля"
+                         class="avatar-preview">
                 </div>
-                <div class="input-field">
-                    <label class="input-label" for="change-surname">Enter your surname</label>
-                    <input class="input" type="text" id="change-surname" placeholder="Katkovskaya" />
-                </div>
-                <div class="input-field">
-                    <label class="input-label" for="change-mobile-phone">Enter your phone</label>
-                    <input class="input" type="text" id="change-mobile-phone" placeholder="not set" />
-                </div>
-                <div class="input-field">
-                    <label class="input-label" for="change-birthdate">Enter your birthdate</label>
-                    <input class="input" type="email" id="change-birthdate" placeholder="18.11.2003" />
-                </div>
-                <div class="input-field">
-                    <label class="input-label" for="change-address">Enter your address</label>
-                    <input class="input" type="email" id="change-address" placeholder="Minsk, Belarus" />
+                <div class="user-details">
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" name="name" value="{{ user.name if user and user.name else '' }}" required>
+
+                    <label for="surname">Фамилия</label>
+                    <input type="text" id="surname" name="surname" value="{{ user.surname if user and user.surname else '' }}" required>
+
+                    <label for="birthdate">Дата рождения</label>
+                    <input type="date" id="birthdate" name="birthdate" value="{{ user.birthdate.strftime('%Y-%m-%d') if user and user.birthdate else '' }}" required>
+
+                    <label for="phone">Моб. телефон</label>
+                    <input type="tel" id="phone" name="phone" value="{{ user.phone if user and user.phone else '' }}">
+
+                    <label for="location">Адрес</label>
+                    <input type="text" id="location" name="location" value="{{ user.location if user and user.location else '' }}">
                 </div>
             </div>
+
+            <div class="favourite-tags">
+                <h3>Любимые категории</h3>
+
+                <div class="tags-checkboxes">
+                    {% if all_tags %}
+                        {% for tag in all_tags %}
+                            <label>
+                                <input type="checkbox" name="favorite_tags" value="{{ tag.name }}"
+                                       {% if user and user.user_categories %}
+                                           {% for user_tag in user.user_categories %}
+                                               {% if user_tag.category and user_tag.category.name == tag.name %}checked{% endif %}
+                                           {% endfor %}
+                                       {% endif %}>
+                                {{ tag.name }}
+                            </label>
+                        {% endfor %}
+                    {% else %}
+                        <p>Нет доступных категорий</p>
+                    {% endif %}
+                </div>
+            </div>
+            <button type="submit" class="save-btn">Сохранить</button>
         </form>
     </div>
+</div>
 
 {% endblock %}

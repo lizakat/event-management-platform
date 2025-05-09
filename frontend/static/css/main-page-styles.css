@@ -1,7 +1,7 @@
 @import url('common-styles.css');
 
 body {
-    background-image: url("../../public/background.svg");
+    background-image: url("/public/background.svg");
     margin: 0;
     padding: 0;
 }
@@ -195,6 +195,10 @@ input[type='date'] {
     cursor: pointer;
     border-radius: 45px;
     font-size: 16px;
+     display: flex; /* Используйте flexbox для выравнивания */
+    align-items: center; /* Вертикальное выравнивание */
+    justify-content: center; /* Горизонтальное выравнивание */
+
 }
 
 .dropdown-toggle:hover {
@@ -298,11 +302,11 @@ input[type='date'] {
 }
 
 .fav-switch-button{
-    background: var(--primary-color);
+    background: var(--secondary-color);
     padding: 12px;
     border: none;
     border-radius: 8px;
-    color: white;
+    color: black;
     font-size: 16px;
     cursor: pointer;
     text-align: center;
@@ -313,7 +317,7 @@ input[type='date'] {
 
 
 .fav-switch-button:hover {
-    background: var(--primary-color-hover);
+    background: var(--secondary-color-hover);
 }
 
 .fav-switch-button-na{
@@ -330,7 +334,33 @@ input[type='date'] {
 
 }
 
-
 .fav-switch-button-na:hover {
     background: #c8c8c8;
+}
+
+
+/* Добавьте в конец файла */
+.pagination a.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background: #f0f0f0;
+}
+
+.event img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    margin-right: 24px;
+    border-radius: 8px;
+}
+
+.add-to-cart1 {
+    display: inline-block;
+    text-align: center;
+    margin-top: 12px;
+    width: auto;
+    padding: 8px 16px;
 }

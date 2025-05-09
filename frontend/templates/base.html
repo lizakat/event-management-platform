@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../public/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/public/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
         <header class="navbar">
             <div class="logo">
               <a class="a-logo" href="/main-page">
-                <img src="../public/favicon.ico" alt="">
+                <img src="/public/favicon.ico" alt="">
                 <h1>Even<span style="font-style: italic; font-family: var(--second-font-family)">ТЫ</span></h1>
               </a>
             </div>
@@ -29,9 +29,17 @@
                 <li><a href="/favourite-events"><i class="far fa-heart"></i></a></li>
                 <li><a href="/notifications"><i class="far fa-bell"></i></a></li>
                 <li>
-                    <a href="{{ '/login' if current_page == 'profile' else '/profile' }}">
-                        <i class="{{ 'fa fa-sign-out-alt' if current_page == 'profile' else 'far fa-user' }}"></i>
+                    {% if current_page == 'profile' %}
+                    <form action="/auth/logout" method="POST">
+                        <button type="submit" class="logout-btn">
+                            <i class="fa fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="/profile">
+                        <i class="far fa-user"></i>
                     </a>
+                    {% endif %}
                 </li>
             </ul>
         </header>
@@ -52,6 +60,15 @@
         </footer>
     </div>
 </body>
-<script src="../static/js/script.js"></script>
-<script src="../static/js/fav-script.js"></script>
+<script src="/static/js/script.js"></script>
+<script src="/static/js/fav-script.js"></script>
+<style>
+.logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: inherit;
+}
+</style>
 </html>

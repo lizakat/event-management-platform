@@ -47,3 +47,10 @@
     font-family: var(--font-family);
     font-style: italic;
 }
+
+
+
+.user-details label {
+    display: block; /* Чтобы подписи были на отдельных строках */
+    margin-bottom: 8px; /* Отступ в 8 пикселей после текста */
+}

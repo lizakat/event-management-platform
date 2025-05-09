@@ -1,0 +1,293 @@
+@import url('common-styles.css');
+
+body {
+    background-image: url("../../public/background.svg");
+    margin-top: 24px;
+}
+
+h1 {
+    margin: 0;
+    margin-bottom: 0px;
+    align-self: center;
+}
+
+
+.all {
+    margin-top: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+
+.menu {
+    width: 150px;
+    padding: 12px 24px 12px 24px;
+    margin-right: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+
+li {
+    font-family: var(--font-family);
+    color: white;
+    list-style: none;
+    text-decoration: none;
+    padding: 12px 0px;
+    text-align: center;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none; /* Убирает подчеркивание */
+}
+
+a:-webkit-any-link {
+    color: var(--description-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+a:visited {
+    color: var(--description-color);
+}
+
+.event {
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.event-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+
+.event-info img {
+    width: 160px;
+    height: 160px;
+    margin-right: 72px;
+    border-radius: 16px;
+}
+
+.event-title {
+    margin: 0;
+    margin-bottom: 0px;
+}
+
+.event-details {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.descr {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+p {
+    margin: 0;
+}
+
+.two-lines {
+    display: grid;
+    grid-template-columns: 50% 50%; /* Две колонки по 50% */
+    width: 100%;
+}
+
+.event-date, .event-time {
+    text-align: left;
+    padding: 0px;
+}
+
+.event-details p {
+    margin: 0;
+}
+
+hr {
+    width: 100%;
+    margin: 24px auto;
+    border: 1px solid var(--description-color);
+}
+
+h3 {
+    padding: 0;
+    margin-bottom: 24px;
+    margin-top: 0px;
+    font-style: italic;
+}
+
+.fav-tag {
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+
+.button {
+    padding: 12px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: var(--primary-color-hover);
+}
+
+
+/* Добавьте в конец файла */
+.event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.two-lines form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-family);
+    margin-left: 0px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 40px;
+}
+
+.categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.category-checkbox label {
+    font-weight: normal;
+    cursor: pointer;
+}
+
+
+.title-fav {
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0;
+}
+
+.heart {
+    color: blue;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.heart.filled {
+    color: red;
+}
+
+.heart:hover {
+    color: #ff6b6b;
+}
+
+
+/* Дополнительные стили для формы редактирования */
+.edit-event-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.current-image {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--description-color);
+}
+
+.current-image img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+.delete-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.delete-btn:hover {
+    background: #cc0000;
+}

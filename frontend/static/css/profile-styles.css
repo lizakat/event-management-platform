@@ -131,3 +131,69 @@ th,
 td {
     border: 1px solid var(--description-color);
 }
+
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="file"] {
+    margin-bottom: 12px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.save-btn {
+    margin-top: 24px;
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+
+.tags-select {
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.tags-select option {
+    padding: 4px;
+}
+
+.tags-select option:checked {
+    background-color: #e0f7fa;
+}
+
+.user-details label {
+    display: block; /* Чтобы подписи были на отдельных строках */
+    margin-bottom: 8px; /* Отступ в 8 пикселей после текста */
+}
+.tags-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Переносит элементы на новую строку при нехватке места */
+    max-height: 74px; /* Ограничивает высоту контейнера */
+    overflow-y: auto; /* Добавляет вертикальную прокрутку при переполнении */
+    margin-bottom: 16px;
+
+}
+
+
+.statistic p {
+    margin: 0;
+    margin-bottom: 8px;
+}

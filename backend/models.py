@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, Text, Date, JSON, TIMESTAMP, ForeignKey, Boolean, Float, func
+from contextlib import nullcontext
+from tokenize import String
+
+from sqlalchemy import Column, Integer, Text, Date, JSON, TIMESTAMP, ForeignKey, Boolean, Float, func, Time
 from sqlalchemy.orm import relationship
 from backend.database import Base
 
@@ -38,7 +41,8 @@ class User(Base):
     name = Column(Text, nullable=False)
     surname = Column(Text, nullable=False)
     role_id = Column(Integer, ForeignKey('roles.id'), nullable=False)
-    avatar = Column(Text)
+    avatar = Column(Text, default="/static/images/avatar_1.jfif")  # Дефолтная ссылка
+    #avatar = Column(Text)
     birthdate = Column(Date)
     location = Column(JSON)
     phone = Column(Text)
@@ -62,6 +66,7 @@ class Event(Base):
     description = Column(Text)
     location = Column(JSON)
     date = Column(Date, nullable=False)
+    time = Column(Time, nullable=False)
     max_participants = Column(Integer)
     price = Column(Float)
     image = Column(Text)
