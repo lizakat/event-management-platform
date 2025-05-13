@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="all">
-        <div ul class="menu">
+        <div class="menu">
             <li title="home"><a href="#" class="menu-button home">Назад</a></li>
             {% if current_user.id == event.organizer_id %}
                 <li title="Edit"><a href="/events/edit-event/{{ event.id }}" class="registrations">Изменить</a></li>
@@ -59,76 +59,74 @@
             </div>
 
             <hr style="margin-top: 24px; border-color: #dddddd">
-
             {% if event.organizer_id == current_user.id %}
                 <button type="button" class="button delete-btn" onclick="deleteEvent({{ event.id }})">
                     Удалить
                 </button>
             {% else %}
-                <button type="button" class="button add-to-cart {% if is_registered %}registered{% endif %}">
+                <button type="button" class="button add-to-cart {% if is_registered %}registered{% endif %}" 
+                        id="registrationBtn" data-event-id="{{ event.id }}" data-is-registered="{{ 'true' if is_registered else 'false' }}">
                     {% if is_registered %}
-                        Вы зарегистрированы
+                        Отменить регистрацию
                     {% else %}
                         Зарегистрироваться
                     {% endif %}
                 </button>
             {% endif %}
         </div>
+
     </div>
     <script>
         function deleteEvent(eventId) {
-    if (confirm("Вы уверены, что хотите удалить это мероприятие?")) {
-        fetch(`/events/delete-event/${eventId}`, {
-            method: 'DELETE',
-            credentials: 'include'  // Чтобы включить куки
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/main-page';  // Перенаправление на главную страницу после удаления
-            } else {
-                alert('Ошибка при удалении мероприятия');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('Произошла ошибка при удалении мероприятия');
-        });
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const favouriteBtn = document.querySelector('.favourite-btn');
-    if (favouriteBtn) {
-        favouriteBtn.addEventListener('click', async function(e) {
-            e.preventDefault();
-            const heart = this.querySelector('i');
-            const eventId = this.getAttribute('data-event-id');
-
-            try {
-                const response = await fetch(`/events/event/${eventId}/favourite`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include'
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.status === 'added') {
-                        heart.classList.replace('far', 'fas');
-                        heart.style.color = 'red';
+            if (confirm("Вы уверены, что хотите удалить это мероприятие?")) {
+                fetch(`/events/delete-event/${eventId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'  // Чтобы включить куки
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/main-page';  // Перенаправление на главную страницу после удаления
                     } else {
-                        heart.classList.replace('fas', 'far');
-                        heart.style.color = '#757575';
+                        alert('Ошибка при удалении мероприятия');
                     }
-                }
-            } catch (error) {
-                console.error('Error:', error);
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Произошла ошибка при удалении мероприятия');
+                });
             }
-        });
-    }
-});
+        }
 
+    document.getElementById('registrationBtn')?.addEventListener('click', async function() {
+        const eventId = this.getAttribute('data-event-id');
+        const isRegistered = this.getAttribute('data-is-registered') === 'true';
+        const action = isRegistered ? 'отменить регистрацию' : 'зарегистрироваться';
+        const url = isRegistered 
+            ? `/events/event/${eventId}/cancel-registration`
+            : `/events/event/${eventId}/register`;
+        
+        if (!confirm(`Вы уверены, что хотите ${action}?`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',                },
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                window.location.reload(); // Обновляем страницу после успеха
+            } else {
+                const errorData = await response.json();
+                alert(errorData.detail || 'Произошла ошибка');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Ошибка сети');
+        }
+    });
     </script>
 {% endblock %}

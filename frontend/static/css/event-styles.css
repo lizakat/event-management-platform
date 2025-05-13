@@ -1,7 +1,7 @@
 @import url('common-styles.css');
 
 body {
-    background-image: url("../../public/background.svg");
+    background-image: url("/public/background.svg");
     margin-top: 24px;
 }
 
@@ -41,6 +41,11 @@ li {
     text-decoration: none;
     padding: 12px 0px;
     text-align: center;
+}
+
+
+.menu li {
+    width: 123px;
 }
 
 a:hover {
@@ -204,7 +209,7 @@ h3 {
     resize: vertical;
     min-height: 40px;
 }
-
+/* Стили для контейнера категорий */
 .categories-container {
     display: flex;
     flex-wrap: wrap;
@@ -212,15 +217,70 @@ h3 {
     margin-top: 8px;
 }
 
+/* Стили для кастомных чекбоксов */
 .category-checkbox {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+}
+
+.category-checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    margin: 0; /* Убираем стандартные отступы */
+}
+
+
+.category-checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    margin: 0; /* Убираем стандартные отступы */
+    padding: 0;
+}
+.category-checkbox input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    box-shadow: none;
+}
+
+.category-checkbox input[type="checkbox"]:checked::after {
+    content: '✔';
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .category-checkbox label {
-    font-weight: normal;
+    font-family: var(--font-family);
+    font-size: 16px;
+    color: var(--text-color);
     cursor: pointer;
+    user-select: none; /* Запрещаем выделение текста */
 }
 
 
@@ -286,8 +346,14 @@ h3 {
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s;
+    width: 100%;
 }
 
 .delete-btn:hover {
     background: #cc0000;
+}
+
+
+.input:focus {
+    box-shadow: 0 4px 8px var(--secondary-color);
 }

@@ -1,7 +1,7 @@
 @import url('common-styles.css');
 
 body {
-    background-image: url("../../public/background.svg");
+    background-image: url("/public/background.svg");
     margin-top: 24px;
 }
 
@@ -71,14 +71,6 @@ h3 {
     color: white;
 }
 
-li {
-    font-family: var(--font-family);
-    color: white;
-    list-style: none;
-    text-decoration: none;
-    padding: 12px 0px;
-    text-align: center;
-}
 
 a:hover {
     color: var(--secondary-color);
@@ -108,6 +100,20 @@ a:visited {
     background-color: white;
     border-radius: 16px;
     border: 1px solid var(--border-color);
+}
+
+li {
+    font-family: var(--font-family);
+    color: white;
+    list-style: none;
+    text-decoration: none;
+    padding: 12px 0px;
+    text-align: center;
+}
+
+
+.menu li {
+    width: 123px;
 }
 
 .all {
@@ -144,6 +150,8 @@ input[type="file"] {
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
+
+
 
 .save-btn {
     margin-top: 24px;
@@ -196,4 +204,71 @@ input[type="file"] {
 .statistic p {
     margin: 0;
     margin-bottom: 8px;
+}
+
+
+
+
+.tags-section {
+    position: relative;
+    margin-bottom: 8px;
+  }
+  
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-height: 36px; /* Высота одной строки */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin: 0;
+  }
+  
+  .tags-container.expanded {
+    max-height: none; /* Показываем все теги */
+  }
+  
+  .fav-tag {
+    display: inline-block;
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    white-space: nowrap;
+  }
+  .toggle-tags-btn {
+    background: none;
+    border: none;
+    color: var(--description-color);
+    cursor: pointer;
+    padding: 0px 0;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-left: auto; /* Это ключевое свойство */
+    display: block;
+    text-align: right; /* Выравнивание текста вправо */
+    width: fit-content; /* Ширина по содержимому */
+  }
+  
+  .toggle-tags-btn:hover {
+    font-weight: bold;
+  }
+
+
+
+.favourite-tags {
+    margin-bottom: 0px;
+}
+
+.tags-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px; /* 8px по вертикали, 12px по горизонтали */
+    margin-top: 0px;
+}
+
+.tags-checkboxes label {
+    margin: 0;
+    padding: 4px 0;
 }

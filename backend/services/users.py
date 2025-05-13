@@ -1,34 +1,34 @@
 from datetime import datetime
+from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
+from backend import database
 from backend.crud import get_user_with_relations
 from backend.models import User, RegistrationStatus
-from backend.schemas import UserProfileData
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from backend import database, schemas, crud
 
-def get_user_statistics(registrations: list) -> dict:
+
+def get_user_statistics(db: Session, registrations: list) -> dict:
     if not registrations:
         return {
             "events_visited": 0,
-            "last_visit": "Нет данных",
-            "statuses": {}
+            "last_visit": "Нет данных"
         }
+    last_visit = max(reg.event.date for reg in registrations if reg.event.date < datetime.now().date()) \
+        if any(reg.event.date < datetime.now().date() for reg in registrations) \
+        else None
 
-    status_counts = {
-        status.name: sum(1 for reg in registrations if reg.status.name == status.name)
-        for status in RegistrationStatus.query.all()
-    }
+    past_events_count = sum(1 for reg in registrations if reg.event.date < datetime.now().date())
 
     return {
-        "events_visited": len(registrations),
-        "last_visit": max(reg.created_at for reg in registrations).strftime("%d.%m.%Y"),
-        "statuses": status_counts
+        "events_visited": past_events_count,
+        "last_visit": last_visit.strftime("%d.%m.%Y") if last_visit else "Нет данных"
     }
 
-
-def get_profile_data(user: User, db: Session = Depends(database.get_db)) -> UserProfileData:
+def get_profile_data(user: User, db: Session) -> dict:
     """Формирует данные для профиля пользователя."""
     user_with_relations = get_user_with_relations(db, user.id)
+
+    # Передаем db в get_user_statistics
+    statistics = get_user_statistics(db, user_with_relations.registrations)
 
     return {
         "name": user_with_relations.name,
@@ -40,7 +40,7 @@ def get_profile_data(user: User, db: Session = Depends(database.get_db)) -> User
         "birthdate": user_with_relations.birthdate.strftime("%d.%m.%Y")
         if user_with_relations.birthdate
         else "Не указана",
-        "statistics": get_user_statistics(user_with_relations.registrations),
+        "statistics": statistics,
         "favorite_tags": [
             uc.category.name for uc in user_with_relations.user_categories
         ]

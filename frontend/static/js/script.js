@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Обработка кликов на сердечко
     document.addEventListener('click', async function(e) {
+         if (e.target.closest('.navbar') || e.target.closest('.menu-items')) {
+            return; // Не обрабатываем клики в хедере
+        }
         if (e.target.closest('.favourite-btn') || e.target.classList.contains('fa-heart')) {
             e.preventDefault();
             const heart = e.target.classList.contains('fa-heart') ? e.target : e.target.querySelector('.fa-heart');

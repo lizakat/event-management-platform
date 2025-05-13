@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi import HTTPException, status
 from backend.crud import get_event, create_event, save_uploaded_file
 from backend.dependencies import get_current_user
-from backend.models import User, Category, UserCategory
+from backend.models import User, Category, UserCategory, Event, Registration, RegistrationStatus
 from sqlalchemy.orm import Session
 from backend import database, schemas, crud, models
 from backend.templates import templates
@@ -34,7 +34,7 @@ async def show_event(
     ) if current_user else False
 
     is_favourite = crud.is_event_in_favourites(db, current_user.id, event_id) if current_user else False
-
+    print(event.image)
     return templates.TemplateResponse(
         "event-page.html",
         {
@@ -117,6 +117,7 @@ async def handle_create_event(
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
+
 @router.get("/edit-event/{event_id}")
 async def show_edit_event_form(
         request: Request,
@@ -175,11 +176,11 @@ async def handle_edit_event(
     event = db.query(models.Event).filter(models.Event.id == event_id).first()
     if not event:
         raise HTTPException(status_code=404, detail="Мероприятие не найдено")
-
+    print("h1")
     # Проверяем права
     if event.organizer_id != current_user.id:
         raise HTTPException(status_code=403, detail="Недостаточно прав для редактирования")
-
+    print("h2")
     try:
         # Обновляем данные
         event.title = title
@@ -189,7 +190,7 @@ async def handle_edit_event(
         event.location = {"address": location} if location else None
         event.max_participants = max_participants
         event.price = price
-
+        print("h3")
         # Обновляем изображение, если загружено новое
         if image:
             event.image = save_uploaded_file(image)
@@ -197,12 +198,12 @@ async def handle_edit_event(
         # Обновляем категории
         # Сначала удаляем все текущие категории
         db.query(models.EventCategory).filter(models.EventCategory.event_id == event_id).delete()
-
+        print("h4")
         # Добавляем новые категории
         for category_id in categories:
             db_category = models.EventCategory(event_id=event_id, category_id=int(category_id))
             db.add(db_category)
-
+        print("h5")
         db.commit()
 
         return RedirectResponse(f"/events/event/{event_id}", status_code=303)
@@ -243,3 +244,55 @@ async def toggle_favourite(
     else:
         crud.add_to_favourites(db, current_user.id, event_id)
         return {"status": "added"}
+
+@router.post("/event/{event_id}/register")
+async def register_for_event(
+        event_id: int,
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    event = db.query(Event).filter(Event.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    # Check if user is already registered
+    existing_registration = db.query(Registration).filter(
+        Registration.user_id == current_user.id,
+        Registration.event_id == event_id
+    ).first()
+
+    if existing_registration:
+        raise HTTPException(status_code=400, detail="Already registered")
+
+    # Create new registration with "Confirmed" status (status_id=2)
+    new_registration = Registration(
+        user_id=current_user.id,
+        event_id=event_id,
+        status_id=1  # "Confirmed" status
+    )
+
+    db.add(new_registration)
+    db.commit()
+
+    return {"status": "success", "message": "Registration successful"}
+
+
+@router.post("/event/{event_id}/cancel-registration")
+async def cancel_registration(
+        event_id: int,
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    registration = db.query(Registration).filter(
+        Registration.user_id == current_user.id,
+        Registration.event_id == event_id
+    ).first()
+
+    if not registration:
+        raise HTTPException(status_code=404, detail="Registration not found")
+
+    # Simply delete the registration record
+    db.delete(registration)
+    db.commit()
+
+    return {"status": "success", "message": "Registration cancelled and removed"}

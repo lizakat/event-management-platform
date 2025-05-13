@@ -1,7 +1,7 @@
 @import url('common-styles.css');
 
 body {
-    background-image: url("../../public/background-login.svg");
+    background-image: url("/public/background-login.svg");
     height: 100vh;
     padding: 0 15%;
 }

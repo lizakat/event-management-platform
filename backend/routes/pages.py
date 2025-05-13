@@ -12,10 +12,11 @@ from backend.services.auth import require_user_or_redirect
 from backend.templates import templates
 from sqlalchemy.orm import Session
 from backend import database
-from backend.models import Event
+from backend.models import Event, FavouriteEvent
 from math import ceil
+from datetime import datetime
 
-
+now = datetime.now()
 router = APIRouter()
 
 @router.get("/")
@@ -92,10 +93,10 @@ async def profile_page(
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
-
 @router.get("/create-event")
 async def read_create_event(request: Request):
     return templates.TemplateResponse("create-event.html", {"request": request, "title": "Создание события"})
+
 
 @router.get("/edit-event")
 async def read_edit_event(request: Request):
@@ -110,9 +111,50 @@ async def read_edit_profile(request: Request):
 async def read_event_page(request: Request):
     return templates.TemplateResponse("event-page.html", {"request": request, "title": "Событие"})
 
+
 @router.get("/favourite-events")
-async def read_favourite_events(request: Request):
-    return templates.TemplateResponse("favourite-events.html", {"request": request, "title": "Любимые события"})
+async def read_favourite_events(
+        request: Request,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+
+    # Получаем избранные события пользователя через связь FavouriteEvent
+    query = db.query(Event).join(
+        FavouriteEvent,
+        FavouriteEvent.event_id == Event.id
+    ).filter(
+        FavouriteEvent.user_id == current_user.id
+    )
+
+    total_events = query.count()
+    total_pages = ceil(total_events / per_page)
+
+    events = query.order_by(Event.date.desc()) \
+        .offset((page - 1) * per_page) \
+        .limit(per_page) \
+        .all()
+
+    # Помечаем все события как избранные (поскольку они из списка избранного)
+    events_with_favourites = [{
+        "event": event,
+        "is_favourite": True  # Все события на этой странице уже в избранном
+    } for event in events]
+
+    return templates.TemplateResponse(
+        "favourite-events.html",
+        {
+            "request": request,
+            "title": "Избранные события",
+            "events": events_with_favourites,
+            "current_page": page,
+            "total_pages": total_pages,
+            "current_user": current_user,
+            "crud": crud
+        }
+    )
 
 @router.get("/favourite-org")
 async def read_favourite_org(request: Request):
@@ -121,3 +163,184 @@ async def read_favourite_org(request: Request):
 @router.get("/user-registrations")
 async def read_user_registrations(request: Request):
     return templates.TemplateResponse("user-registrations.html", {"request": request, "title": "Мои регистрации"})
+
+
+@router.get("/org-events")
+async def read_org_events(
+        request: Request,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+    today = datetime.now().date()
+    
+    # Фильтруем по организатору и дате (>= сегодня)
+    query = db.query(Event).filter(
+        Event.organizer_id == current_user.id,
+        (Event.date > now.date()) | 
+        ((Event.date == now.date()) & (Event.time > now.time()))
+    )
+    
+    total_events = query.count()
+    total_pages = ceil(total_events / per_page)
+    
+    events = query.order_by(Event.date.asc()) \
+        .offset((page - 1) * per_page) \
+        .limit(per_page) \
+        .all()
+
+    events_with_favourites = []
+    for event in events:
+        is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        events_with_favourites.append({
+            "event": event,
+            "is_favourite": is_favourite
+        })
+
+    return templates.TemplateResponse(
+        "org-events.html",
+        {
+            "request": request,
+            "title": "Мои события",
+            "events": events_with_favourites,
+            "current_page": page,
+            "total_pages": total_pages,
+            "current_user": current_user,
+            "crud": crud
+        }
+    )
+
+
+@router.get("/passed-events")
+async def read_org_passed_events(
+        request: Request,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+    today = datetime.now().date()
+    
+    query = db.query(Event).filter(
+        Event.organizer_id == current_user.id,
+        (Event.date < now.date()) | 
+        ((Event.date == now.date()) & (Event.time <= now.time()))
+    )
+    
+    total_events = query.count()
+    total_pages = ceil(total_events / per_page)
+    
+    events = query.order_by(Event.date.desc()) \
+        .offset((page - 1) * per_page) \
+        .limit(per_page) \
+        .all()
+
+    events_with_favourites = []
+    for event in events:
+        is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        events_with_favourites.append({
+            "event": event,
+            "is_favourite": is_favourite
+        })
+
+    return templates.TemplateResponse(
+        "org-passed-events.html",
+        {
+            "request": request,
+            "title": "Прошедшие события",
+            "events": events_with_favourites,
+            "current_page": page,
+            "total_pages": total_pages,
+            "current_user": current_user,
+            "crud": crud
+        }
+    )
+
+
+@router.get("/active-registrations")
+async def active_registrations(
+        request: Request,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+    today = datetime.now().date()
+
+    query = db.query(Event).join(Registration).filter(
+        Registration.user_id == current_user.id,
+        Event.date >= today
+    )
+
+    total_events = query.count()
+    total_pages = ceil(total_events / per_page)
+
+    events = query.order_by(Event.date.asc()) \
+        .offset((page - 1) * per_page) \
+        .limit(per_page) \
+        .all()
+
+    events_with_favourites = []
+    for event in events:
+        is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        events_with_favourites.append({
+            "event": event,
+            "is_favourite": is_favourite
+        })
+    return templates.TemplateResponse(
+        "user-registrations.html",
+        {
+            "request": request,
+            "events": events_with_favourites,
+            "current_page": page,
+            "total_pages": total_pages,
+            "current_user": current_user,
+            "active_tab": "active"  # Для подсветки активной кнопки
+        }
+    )
+
+
+# Прошедшие регистрации
+@router.get("/passed-registrations")
+async def passed_registrations(
+        request: Request,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+    today = datetime.now().date()
+
+    query = db.query(Event).join(Registration).filter(
+        Registration.user_id == current_user.id,
+        Event.date < today
+    )
+
+    total_events = query.count()
+    total_pages = ceil(total_events / per_page)
+
+    events = query.order_by(Event.date.desc()) \
+        .offset((page - 1) * per_page) \
+        .limit(per_page) \
+        .all()
+
+    events_with_favourites = []
+    for event in events:
+        is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        events_with_favourites.append({
+            "event": event,
+            "is_favourite": is_favourite
+        })
+
+    return templates.TemplateResponse(
+        "user-registrations.html",
+        {
+            "request": request,
+            "events": events_with_favourites,
+            "current_page": page,
+            "total_pages": total_pages,
+            "current_user": current_user,
+            "active_tab": "passed"  # Для подсветки активной кнопки
+        }
+    )

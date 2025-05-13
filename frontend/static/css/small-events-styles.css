@@ -1,0 +1,299 @@
+@import url('common-styles.css');
+
+body {
+    background-image: url("/public/background.svg");
+    margin-top: 24px;
+}
+
+h1 {
+    margin: 0;
+    margin-bottom: 0px;
+    align-self: center;
+}
+
+.all {
+    margin-top: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+
+
+.menu {
+    width: 150px;
+    padding: 12px 24px 12px 24px;
+    margin-right: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+
+
+li {
+    font-family: var(--font-family);
+    list-style: none;
+    color: white;
+    text-decoration: none;
+    padding: 12px 0px;
+    text-align: center;
+
+}
+
+
+.menu li {
+    width: 123px;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none; /* Убирает подчеркивание */
+}
+
+a:-webkit-any-link {
+    color: var(--description-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+a:visited {
+    color: var(--description-color);
+}
+
+
+.event-list {
+    margin-top: 0px;
+}
+
+
+.event {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-bottom: 24px;
+    flex-direction: row;
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.2s ease;
+}
+
+.event:hover {
+    box-shadow: 0px 5px 20px var(--description-color);
+}
+
+.event img {
+    width: 160px;
+    height: 160px;
+    margin-right: 24px;
+}
+
+.event-details {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 24px - 24px - 24px - 200px);
+}
+
+.event-title {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.event-description {
+    margin: 0;
+}
+
+.event-date-location {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.event-date-location p {
+    margin: 0;
+}
+
+.event p {
+    margin: 0;
+    margin-bottom: 8px;
+    color: var(--description-color);
+    font-size: 14px;
+}
+
+.event span {
+    color: var(--description-color);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.event-title h2 {
+    margin: 0;
+    font-size: 10px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.add-to-cart {
+    width: 200px;
+    height: 34px;
+    padding: 8px 16px;
+    margin-top: auto;
+    font-size: 14px;
+    text-align: left;
+}
+
+.title-fav {
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+.heart {
+    color: blue;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.heart.filled {
+    color: red;
+}
+
+.heart:hover {
+    color: #ff6b6b;
+}
+
+
+.events-small {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.pagination a {
+    margin:  0 5px 24px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--description-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    background-color: white;
+}
+
+.pagination a:hover {
+    background: #f0f0f0;
+    font-weight: normal;
+}
+
+/* Добавьте в конец файла */
+.pagination a.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background: #f0f0f0;
+}
+
+.create-btn{
+    background: var(--secondary-color);
+    color: black;
+    margin-bottom: 24px;
+        transition: background 0.3s ease;
+
+}
+
+.create-btn:hover{
+    background: var(--secondary-color);
+    font-weight: bold;
+    box-shadow: 0 4px 8px white;
+}
+
+
+.event-switch-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 24px;
+    gap: 16px; /* Добавляем отступ между кнопками */
+}
+
+.event-switch-buttons a {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    width: 48%; /* Чуть меньше 50% чтобы учесть gap */
+}
+
+.active-events-button {
+    background: var(--secondary-color);
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+        box-shadow: 0 4px 8px white;
+
+}
+
+.active-events-button:hover {
+    background: var(--secondary-color-hover);
+}
+
+.active-events-button-na {
+    background: var(--gray-background-color);
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.active-events-button-na:hover {
+    background: #c8c8c8;
+}
+
+.cancel-registration {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    width: 220px;
+    height: 34px;
+    padding: 8px 16px;
+    margin-top: auto;
+    font-size: 14px;
+    text-align: left;
+}
+
+.cancel-registration:hover {
+    background: #c8c8c8;
+}

@@ -77,6 +77,7 @@ class Event(Base):
     registrations = relationship("Registration", back_populates="event", cascade="all, delete")
     favourite_events = relationship("FavouriteEvent", back_populates="event", cascade="all, delete")
 
+
 class Registration(Base):
     __tablename__ = "registrations"
 

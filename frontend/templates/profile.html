@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block styles %}
-    <link rel="stylesheet" href="/static/css/profile-styles.css">
+    <link rel="stylesheet" href="../static/css/profile-styles.css">
 {% endblock %}
 
 {% block content %}
@@ -9,12 +9,15 @@
     <div class="all">
         <div class="menu">
             {% if user.role_id == 1 %}
-                <li title="My events"><a href="/my-events" class="my-events">Мои события</a></li>
-                <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Me" class="highlight-item"><a href="/profile" class="my-page">Мой профиль</a></li>
+                <li title="My events"><a href="/org-events" class="my-events">Мои события</a></li>
+                <li title="Passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Registrations"><a href="/active-registrations" class="registrations">Регистрации</a></li>
                 <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
             {% else %}
-                <li title="Registrations"><a href="/user-registrations" class="registrations">Регистрации</a></li>
-                <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Me" class="highlight-item"><a href="/profile" class="my-page">Мой профиль</a></li>
+                <li title="Registrations"><a href="/active-registrations" class="registrations">Регистрации</a></li>
+                <li title="Passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
                 <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
             {% endif %}
         </div>
@@ -32,17 +35,19 @@
                     <p class="user-location">Адрес: {{ user.location or 'Не указан' }}</p>
                 </div>
             </div>
-
             <div class="favourite-tags">
                 <h3 style="margin-bottom: 16px; margin-top:16px">Любимые категории</h3>
-                <div class="tags-container">
+                <div class="tags-section">
+                    <div class="tags-container" id="tagsContainer">
                     {% if user.favorite_tags %}
                         {% for tag in user.favorite_tags %}
-                            <label class="fav-tag">{{ tag }}</label>
+                        <span class="fav-tag">{{ tag }}</span>
                         {% endfor %}
                     {% else %}
                         <p>Нет любимых категорий.</p>
                     {% endif %}
+                    </div>
+                    <button class="toggle-tags-btn" id="toggleTagsBtn">Показать все ▼</button>
                 </div>
             </div>
 
@@ -53,4 +58,33 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+              const tagsContainer = document.getElementById('tagsContainer');
+              const toggleBtn = document.getElementById('toggleTagsBtn');
+
+              function checkOverflow() {
+                    // Сравниваем высоту содержимого с видимой высотой
+                    const hasOverflow = tagsContainer.scrollHeight > tagsContainer.clientHeight;
+                    tagsContainer.classList.toggle('has-overflow', hasOverflow);
+
+                    // Если нет переполнения - закрываем контейнер
+                    if (!hasOverflow) {
+                      tagsContainer.classList.remove('expanded');
+                      toggleBtn.textContent = 'Показать все ▼';
+                    }
+              }
+
+              // Проверяем при загрузке и при изменении размера окна
+              checkOverflow();
+              window.addEventListener('resize', checkOverflow);
+
+              toggleBtn.addEventListener('click', function() {
+                    tagsContainer.classList.toggle('expanded');
+                    toggleBtn.textContent = tagsContainer.classList.contains('expanded')
+                      ? 'Свернуть ▲'
+                      : 'Показать все ▼';
+              });
+        });
+    </script>
 {% endblock %}

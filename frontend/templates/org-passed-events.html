@@ -11,22 +11,12 @@
         <div class="menu">
                 <li title="Me"><a href="/profile" class="my-page">Мой профиль</a></li>
                 <li title="My events"><a href="/org-events" class="my-events">Мои события</a></li>
-                <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
-                <li title="Registrations"   class="highlight-item"><a href="/active-registrations" class="registrations">Регистрации</a></li>
+                <li title="passed events"   class="highlight-item"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Registrations"><a href="/active-registrations" class="registrations">Регистрации</a></li>
 
                 <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
         </div>
         <div class="events-small">
-            <div class="event-switch-buttons">
-                <a href="/active-registrations"
-                   class="{% if active_tab == 'active' %}active-events-button{% else %}active-events-button-na{% endif %}">
-                    Активные
-                </a>
-                <a href="/passed-registrations"
-                   class="{% if active_tab == 'passed' %}active-events-button{% else %}active-events-button-na{% endif %}">
-                    Прошедшие
-                </a>
-            </div>
             <section class="event-list">
                 {% for event_data in events %}
                 <article class="event">
@@ -48,25 +38,22 @@
                             <p class="event-location">{{ event_data.event.location.address if event_data.event.location else 'Место не указано' }}</p>
                         </div>
                         <p class="event-price">Цена: {{ event_data.event.price or 'Бесплатно' }}</p>
-                        <div class="event-switch-buttons" style="margin-bottom:0px;">
-                            <button type="button" class="button add-to-cart" onclick="window.location.href='/events/event/{{ event_data.event.id }}'">Узнать подробнее...</button>
-                            <button type="button" class="button cancel-registration" onclick="windows.location.href='/events/event/{{ event_data.event.id }}/register'">Отменить регистрацию</button>
-                        </div>
+                        <button type="button" class="button add-to-cart" onclick="window.location.href='/events/event/{{ event_data.event.id }}'">Узнать подробнее...</button>
                     </div>
                 </article>
                 {% endfor %}
 
                 <div class="pagination">
                     {% if current_page > 1 %}
-                        <a href="/user-registrations?page={{ current_page - 1 }}">&laquo; Назад</a>
+                        <a href="/org-passed-events?page={{ current_page - 1 }}">&laquo; Назад</a>
                     {% endif %}
 
                     {% for page_num in range(1, total_pages + 1) %}
-                        <a href="/user-registrations?page={{ page_num }}" {% if page_num == current_page %}class="active"{% endif %}>{{ page_num }}</a>
+                        <a href="/org-passed-events?page={{ page_num }}" {% if page_num == current_page %}class="active"{% endif %}>{{ page_num }}</a>
                     {% endfor %}
 
                     {% if current_page < total_pages %}
-                        <a href="/user-registrations?page={{ current_page + 1 }}">Вперед &raquo;</a>
+                        <a href="/org-passed-events?page={{ current_page + 1 }}">Вперед &raquo;</a>
                     {% endif %}
                 </div>
             </section>

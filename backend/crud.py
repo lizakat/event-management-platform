@@ -1,4 +1,6 @@
+import uuid
 from datetime import datetime, timedelta
+from pathlib import Path
 
 import bcrypt
 from sqlalchemy.orm import Session, joinedload
@@ -149,15 +151,21 @@ def is_event_in_favourites(db: Session, user_id: int, event_id: int):
         models.FavouriteEvent.event_id == event_id
     ).first() is not None
 
+
 def save_uploaded_file(file: UploadFile) -> str:
-    upload_dir = "static/uploads"
+    upload_dir = "frontend/static/uploads"  # относительный путь от корня проекта
     os.makedirs(upload_dir, exist_ok=True)
 
+    # Генерация уникального идентификатора + оригинальное расширение
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    filename = f"{timestamp}_{file.filename}"
+    unique_id = uuid.uuid4().hex
+    original_ext = os.path.splitext(file.filename)[1]
+    filename = f"{timestamp}_{unique_id}{original_ext}"
+
     file_path = os.path.join(upload_dir, filename)
 
     with open(file_path, "wb") as buffer:
         buffer.write(file.file.read())
 
+    # Абсолютный путь для шаблона
     return f"/static/uploads/{filename}"

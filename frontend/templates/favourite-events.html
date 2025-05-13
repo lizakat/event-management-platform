@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block styles %}
-    <link rel="stylesheet" href="../static/css/main-page-styles.css">
+    <link rel="stylesheet" href="/static/css/main-page-styles.css">
 {% endblock %}
 
 {% block content %}
@@ -15,66 +15,44 @@
         <button type="button" class="fav-switch-button-na" id="fav-switch-button-org">Избранные организаторы</button>
     </div>
 
-    <section class="favourite-event-list">
+    <section class="event-list">
+        {% for event_data in events %}
         <article class="event">
-            <img src="../static/images/test_image.jpg" alt="Описание товара 1">
+            <img src="{{ event_data.event.image or '/static/images/test_image.jpg' }}" alt="{{ event_data.event.title }}">
             <div class="event-details">
                 <div class="title-fav">
-                    <h2 class="event-title">Название события 1</h2>
-                    <a href="#favourite"><i class="far fa-heart" style="color: #757575"></i></a>
+                    <h2 class="event-title">{{ event_data.event.title }}</h2>
+                    <a href="#" class="favourite-btn" data-event-id="{{ event_data.event.id }}">
+                        <i class="{% if event_data.is_favourite %}fas{% else %}far{% endif %} fa-heart"
+                        style="color: {% if event_data.is_favourite %}red{% else %}#757575{% endif %};"></i>
+                    </a>
                 </div>
-                <p class="event-description">Описание события 1. Описание события 1. Описание события sdv sdd d d d d d d ddddddddddddd d  dv sdv  sdvsd v  s vs v sвара 1.</p>
+                <p class="event-description">{{ event_data.event.description or 'Описание отсутствует' }}</p>
                 <div class="event-date-location">
-                    <p class="event-date">18:00 12.12.2024</p>
+                    <p class="event-time">{{ event_data.event.time.strftime('%H:%M') if event_data.event.time else 'Не указано' }}</p>
+                    <span></span>
+                    <p class="event-date">{{ event_data.event.date.strftime('%d.%m.%Y') if event_data.event.date else 'Не указано' }}</p>
                     <span class="separator"> | </span>
-                    <p class="event-location">г. Минск, ул. Советская 15</p>
+                    <p class="event-location">{{ event_data.event.location.address if event_data.event.location else 'Место не указано' }}</p>
                 </div>
-                <p class="event-price">Cost: $29.99</p>
-                <button type="button" class="button add-to-cart">Узнать подробнее...</button>
+                <p class="event-price">Цена: {{ event_data.event.price or 'Бесплатно' }}</p>
+                <button type="button" class="button add-to-cart" onclick="window.location.href='/events/event/{{ event_data.event.id }}'">Узнать подробнее...</button>
             </div>
         </article>
-        <article class="event">
-            <img src="../static/images/test_image.jpg" alt="Описание товара 1">
-            <div class="event-details">
-                <div class="title-fav">
-                    <h2 class="event-title">Название события 1</h2>
-                    <a href="#favourite"><i class="far fa-heart" style="color: #757575";></i></a>
-                </div>
-                <p class="event-description">Описание события 1. Описаниние d d d d dd d d d d d d ddddddddddddd d  dv sdv  sdvsd v  s vs v sвара 1.</p>
-                <div class="event-date-location">
-                    <p class="event-date">18:00 12.12.2024</p>
-                    <span class="separator"> | </span>
-                    <p class="event-location">г. Минск, ул. Советская 15</p>
-                </div>
-                <p class="event-price">Cost: $29.99</p>
-                <button type="button" class="button add-to-cart">Больше...</button>
-            </div>
-        </article>
-        <article class="event">
-            <img src="../static/images/test_image.jpg" alt="Описание товара 1">
-            <div class="event-details">
-                <div class="title-fav">
-                    <h2 class="event-title">214 описание макс</h2>
-                    <a href="#favourite"><i class="far fa-heart" style="color: #757575";></i></a>
-                </div>
-                <p class="event-description">ММММММММММММММММММММММММММММММММММММММММММ ММММММММММММММММММММММММММММММММММММММ</p>
-                <div class="event-date-location">
-                    <p class="event-date">18:00 12.12.2024</p>
-                    <span class="separator"> | </span>
-                    <p class="event-location">г. Минск, ул. Советская 15</p>
-                </div>
-                <p class="event-price">Cost: $29.99</p>
-                <button type="button" class="button add-to-cart">Больше...</button>
-            </div>
-        </article>
+        {% endfor %}
+
         <div class="pagination">
-            <a href="#">&laquo; Назад</a>
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">Вперед &raquo;</a>
+            {% if current_page > 1 %}
+                <a href="/main-page?page={{ current_page - 1 }}">&laquo; Назад</a>
+            {% endif %}
+
+            {% for page_num in range(1, total_pages + 1) %}
+                <a href="/main-page?page={{ page_num }}" {% if page_num == current_page %}class="active"{% endif %}>{{ page_num }}</a>
+            {% endfor %}
+
+            {% if current_page < total_pages %}
+                <a href="/main-page?page={{ current_page + 1 }}">Вперед &raquo;</a>
+            {% endif %}
         </div>
     </section>
 
