@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from typing import Optional, List
 
@@ -10,6 +11,7 @@ from backend.dependencies import get_current_user
 from backend.models import User, Category, UserCategory, Event, Registration, RegistrationStatus
 from sqlalchemy.orm import Session
 from backend import database, schemas, crud, models
+from backend.services.events import prepare_event_data
 from backend.templates import templates
 from backend.dependencies import get_current_organizer
 
@@ -34,19 +36,20 @@ async def show_event(
     ) if current_user else False
 
     is_favourite = crud.is_event_in_favourites(db, current_user.id, event_id) if current_user else False
-    print(event.image)
+
+    event_data = prepare_event_data(event)
+
     return templates.TemplateResponse(
         "event-page.html",
         {
             "request": request,
-            "event": event,
+            "event": event_data,
             "current_user": current_user,
             "is_registered": is_registered,
             "is_favourite": is_favourite,
             "crud": crud
         }
     )
-
 
 @router.get("/create-event")
 async def show_create_event_form(
@@ -88,14 +91,14 @@ async def handle_create_event(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Только организаторы могут создавать мероприятия"
         )
-
+    location_json = json.loads(location) if location else None
     try:
         event_data = {
             "title": title,
             "description": description,
             "date": date,
             "time": time,
-            "location": location,  # Преобразуем в JSON
+            "location": location_json,
             "max_participants": max_participants,
             "price": price,
             "image": image,
@@ -187,7 +190,7 @@ async def handle_edit_event(
         event.description = description
         event.date = datetime.strptime(date, "%Y-%m-%d").date()
         event.time = datetime.strptime(time, "%H:%M").time()
-        event.location = {"address": location} if location else None
+        event.location = location if location else None
         event.max_participants = max_participants
         event.price = price
         print("h3")

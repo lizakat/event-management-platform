@@ -297,3 +297,12 @@ h2 {
 .cancel-registration:hover {
     background: #c8c8c8;
 }
+
+
+.event img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    margin-right: 24px;
+    border-radius: 8px;
+}

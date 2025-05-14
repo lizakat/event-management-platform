@@ -35,7 +35,7 @@
                             <span></span>
                             <p class="event-date">{{ event_data.event.date.strftime('%d.%m.%Y') if event_data.event.date else 'Не указано' }}</p>
                             <span class="separator"> | </span>
-                            <p class="event-location">{{ event_data.event.location.address if event_data.event.location else 'Место не указано' }}</p>
+                           <p class="event-location">{{ event_data.event.location if event_data.event.location else 'Место не указано' }}</p>
                         </div>
                         <p class="event-price">Цена: {{ event_data.event.price or 'Бесплатно' }}</p>
                         <button type="button" class="button add-to-cart" onclick="window.location.href='/events/event/{{ event_data.event.id }}'">Узнать подробнее...</button>

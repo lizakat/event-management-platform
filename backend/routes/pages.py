@@ -9,6 +9,7 @@ from backend.models import Registration, UserCategory, User, RegistrationStatus
 from backend.schemas import UserBase
 from backend.services import users
 from backend.services.auth import require_user_or_redirect
+from backend.services.events import prepare_event_data
 from backend.templates import templates
 from sqlalchemy.orm import Session
 from backend import database
@@ -54,9 +55,10 @@ async def read_main_page(
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id) if current_user else False
         events_with_favourites.append({
-            "event": event,
+            "event": prepare_event_data(event),
             "is_favourite": is_favourite
         })
+
 
     return templates.TemplateResponse(
         "main-page.html",
@@ -139,7 +141,7 @@ async def read_favourite_events(
 
     # Помечаем все события как избранные (поскольку они из списка избранного)
     events_with_favourites = [{
-        "event": event,
+        "event": prepare_event_data(event),
         "is_favourite": True  # Все события на этой странице уже в избранном
     } for event in events]
 
@@ -194,7 +196,7 @@ async def read_org_events(
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
         events_with_favourites.append({
-            "event": event,
+            "event": prepare_event_data(event),
             "is_favourite": is_favourite
         })
 
@@ -240,7 +242,7 @@ async def read_org_passed_events(
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
         events_with_favourites.append({
-            "event": event,
+            "event": prepare_event_data(event),
             "is_favourite": is_favourite
         })
 
@@ -285,7 +287,7 @@ async def active_registrations(
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
         events_with_favourites.append({
-            "event": event,
+            "event": prepare_event_data(event),
             "is_favourite": is_favourite
         })
     return templates.TemplateResponse(
@@ -329,7 +331,7 @@ async def passed_registrations(
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
         events_with_favourites.append({
-            "event": event,
+            "event": prepare_event_data(event),
             "is_favourite": is_favourite
         })
 
