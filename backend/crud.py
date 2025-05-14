@@ -5,7 +5,7 @@ from pathlib import Path
 import bcrypt
 from sqlalchemy.orm import Session, joinedload
 from backend import models, schemas
-from backend.models import VerificationCode, User, Registration, UserCategory, Event, EventCategory
+from backend.models import VerificationCode, User, Registration, UserCategory, Event, EventCategory, FavouriteOrganizer
 import os
 from datetime import datetime
 from fastapi import UploadFile
@@ -151,21 +151,101 @@ def is_event_in_favourites(db: Session, user_id: int, event_id: int):
         models.FavouriteEvent.event_id == event_id
     ).first() is not None
 
+def get_event_org_name(db: Session, event_id: int):
+    event = db.query(models.Event).filter(models.Event.id == event_id).first()
+    if event:
+        organizer = db.query(models.User).filter(models.User.id == event.organizer_id).first()
+        if organizer:
+            return f"{organizer.name} {organizer.surname}"
+    return None
 
-def save_uploaded_file(file: UploadFile) -> str:
-    upload_dir = "frontend/static/uploads"  # относительный путь от корня проекта
-    os.makedirs(upload_dir, exist_ok=True)
 
-    # Генерация уникального идентификатора + оригинальное расширение
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    unique_id = uuid.uuid4().hex
-    original_ext = os.path.splitext(file.filename)[1]
-    filename = f"{timestamp}_{unique_id}{original_ext}"
+def save_uploaded_file(upload_file: UploadFile) -> str:
+    # Создаем уникальное имя файла
+    file_ext = os.path.splitext(upload_file.filename)[1]
+    file_name = f"{uuid.uuid4()}{file_ext}"
 
-    file_path = os.path.join(upload_dir, filename)
+    # Путь для сохранения
+    save_path = os.path.join("/static/uploads", file_name)
 
-    with open(file_path, "wb") as buffer:
-        buffer.write(file.file.read())
+    # Создаем директорию, если её нет
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
-    # Абсолютный путь для шаблона
-    return f"/static/uploads/{filename}"
+    # Сохраняем файл
+    with open(save_path, "wb") as buffer:
+        buffer.write(upload_file.file.read())
+    print("файл сохранен")
+    return f"/static/uploads/{file_name}"
+
+def get_organizer_with_stats(db: Session, organizer_id: int):
+    """Получаем организатора с расширенной статистикой"""
+    organizer = db.query(User).options(
+        joinedload(User.favourite_organizers_as_organizer)
+    ).filter(User.id == organizer_id).first()
+
+    if not organizer:
+        return None
+
+    # Получаем статистику
+    events_count = db.query(Event).filter(Event.organizer_id == organizer_id).count()
+    followers_count = db.query(FavouriteOrganizer).filter(
+        FavouriteOrganizer.organizer_id == organizer_id
+    ).count()
+
+    return {
+        "id": organizer.id,
+        "name": organizer.name,
+        "surname": organizer.surname,
+        "email": organizer.email,
+        "avatar": organizer.avatar or "/static/images/avatar_1.jfif",
+        "events_count": events_count,
+        "followers_count": followers_count,
+        "is_followed": any(f.user_id == organizer_id for f in organizer.favourite_organizers_as_organizer)
+    }
+
+
+def toggle_favorite_organizer(db: Session, user_id: int, organizer_id: int):
+    """Переключаем статус организатора в избранном с проверками"""
+    # Проверяем, что пользователь не пытается добавить себя
+    if user_id == organizer_id:
+        raise ValueError("Нельзя добавить себя в избранное")
+
+    # Проверяем существование организатора
+    organizer = db.query(User).filter(User.id == organizer_id).first()
+    if not organizer:
+        raise ValueError("Организатор не найден")
+
+    existing = db.query(FavouriteOrganizer).filter(
+        FavouriteOrganizer.user_id == user_id,
+        FavouriteOrganizer.organizer_id == organizer_id
+    ).first()
+
+    try:
+        if existing:
+            db.delete(existing)
+            action = "removed"
+        else:
+            db_fav = FavouriteOrganizer(
+                user_id=user_id,
+                organizer_id=organizer_id,
+                created_at=datetime.utcnow()
+            )
+            db.add(db_fav)
+            action = "added"
+
+        db.commit()
+
+        # Обновляем счетчик подписчиков
+        followers_count = db.query(FavouriteOrganizer).filter(
+            FavouriteOrganizer.organizer_id == organizer_id
+        ).count()
+
+        return {
+            "status": action,
+            "followers_count": followers_count,
+            "is_followed": action == "added"
+        }
+
+    except Exception as e:
+        db.rollback()
+        raise ValueError(f"Ошибка при обновлении избранного: {str(e)}")

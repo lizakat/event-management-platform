@@ -14,13 +14,24 @@
     <div class="profile">
         <hr style="margin-top: 0;">
 
-        <form method="POST" action="/users/edit-profile">
+        <form method="POST" action="/users/edit-profile" enctype="multipart/form-data">
             <div class="user-info">
-                <div class="avatar-container">
-                    <img src="{{ user.avatar_url if user and user.avatar_url else '/static/images/avatar_1.jfif' }}"
-                         alt="Фото профиля"
-                         class="avatar-preview">
+                <div class="form-group">
+                    <!-- Скрытый input для загрузки файла -->
+                    <input type="file" id="avatar-upload" name="image" accept="image/*" style="display: none;">
+
+                    <div class="avatar-container">
+                        <!-- Кликабельный превью-аватар -->
+                        <label for="avatar-upload" style="cursor: pointer;">
+                            <img src="{{ user.avatar_url if user and user.avatar_url else '/static/images/avatar_1.jfif' }}"
+                                 alt="Фото профиля"
+                                 class="avatar-preview"
+                                 id="avatar-preview">
+                            <div class="change-photo-text">Изменить фото</div>
+                        </label>
+                    </div>
                 </div>
+
                 <div class="user-details">
                     <label for="name">Имя</label>
                     <input type="text" id="name" name="name" value="{{ user.name if user and user.name else '' }}" required>
@@ -64,5 +75,16 @@
         </form>
     </div>
 </div>
-
+<script>
+document.getElementById('avatar-upload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById('avatar-preview').src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 {% endblock %}

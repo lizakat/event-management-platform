@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="../static/css/small-events-styles.css">
+{% endblock %}
+
+{% block content %}
+    <div class="all">
+        <div class="menu">
+            <li title="home"><a href="#" class="menu-button home">Назад</a></li>
+        </div>
+
+        <!-- Блок с организатором -->
+        <div class="events-small">
+            <section class="event-list">
+                <article class="event organizer-card" style="box-shadow: 0 4px 8px white;">
+                    <img src="{{ organizer.avatar or '/static/images/avatar_1.jfif' }}"
+                         alt="{{ organizer.name }} {{ organizer.surname }}">
+                    <div class="org-details">
+                        <div class="title-fav">
+                            <h2 class="event-title">{{ organizer.name }} {{ organizer.surname }}</h2>
+                            <a href="#" class="favourite-btn favourite-organizer-btn"
+                               data-organizer-id="{{ organizer.id }}">
+                                <i class="{% if is_favorite %}fas{% else %}far{% endif %} fa-heart"
+                                   style="color: {% if is_favorite %}red{% else %}#757575{% endif %};"></i>
+                            </a>
+                        </div>
+                        <div class="org-info">
+                            <p class="event-time">{{ organizer.email }}</p>
+                            <p class="event-time">Добавили в избранное: {{ organizer.followers_count }}</p>
+
+
+                        </div>
+                        <p class="event-time">Мероприятий: {{ organizer.events_count }}</p>
+                    </div>
+                </article>
+
+                <div class="line-container">
+                    <hr class="custom-hr">
+                    <span class="line-text">Все события организатора:</span>
+                    <hr class="custom-hr">
+                </div>
+
+                {% for event in events %}
+                <article class="event">
+                    <img src="{{ event.image or '/static/images/test_image.jpg' }}"
+                         alt="{{ event.title }}">
+                    <div class="event-details">
+                        <div class="title-fav">
+                            <h2 class="event-title">{{ event.title }}</h2>
+                            <a href="#" class="favourite-btn favourite-event-btn"
+                               data-event-id="{{ event.id }}">
+                                <i class="{% if event.is_favourite %}fas{% else %}far{% endif %} fa-heart"
+                                   style="color: {% if event.is_favourite %}red{% else %}#757575{% endif %};"></i>
+                            </a>
+                        </div>
+                        <p class="event-description">{{ event.description or 'Описание отсутствует' }}</p>
+                        <div class="event-date-location">
+                            <p class="event-time">{{ event.time.strftime('%H:%M') if event.time else 'Не указано' }}</p>
+                            <span></span>
+                            <p class="event-date">{{ event.date.strftime('%d.%m.%Y') if event.date else 'Не указано' }}</p>
+                            <span class="separator"> | </span>
+                            <p class="event-location">{{ event.location if event.location else 'Место не указано' }}</p>
+                        </div>
+                        <p class="event-price">Цена: {{ event.price or 'Бесплатно' }}</p>
+                        <button type="button" class="button add-to-cart"
+                                onclick="window.location.href='/events/event/{{ event.id }}'">
+                            Узнать подробнее...
+                        </button>
+                    </div>
+                </article>
+                {% endfor %}
+
+                <div class="pagination">
+                    {% if current_page > 1 %}
+                        <a href="/organizer/{{ organizer.id }}?page={{ current_page - 1 }}">&laquo; Назад</a>
+                    {% endif %}
+
+                    {% for page_num in range(1, total_pages + 1) %}
+                        <a href="/organizer/{{ organizer.id }}?page={{ page_num }}"
+                           {% if page_num == current_page %}class="active"{% endif %}>
+                            {{ page_num }}
+                        </a>
+                    {% endfor %}
+
+                    {% if current_page < total_pages %}
+                        <a href="/organizer/{{ organizer.id }}?page={{ current_page + 1 }}">Вперед &raquo;</a>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Обработка добавления организатора в избранное
+        document.querySelector('.favourite-organizer-btn').addEventListener('click', async function(e) {
+            e.preventDefault();
+            const btn = e.currentTarget;
+            const organizerId = btn.getAttribute('data-organizer-id');
+            const heartIcon = btn.querySelector('i');
+
+            try {
+                const response = await fetch(`/organizer/${organizerId}/favourite`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.status === 'added') {
+                        heartIcon.classList.replace('far', 'fas');
+                        heartIcon.style.color = 'red';
+                        // Можно добавить уведомление
+                        alert('Организатор добавлен в избранное');
+                    } else if (result.status === 'removed') {
+                        heartIcon.classList.replace('fas', 'far');
+                        heartIcon.style.color = '#757575';
+                        // Можно добавить уведомление
+                        alert('Организатор удален из избранного');
+                    }
+                } else {
+                    const error = await response.json();
+                    alert(error.detail || 'Произошла ошибка');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка сети');
+            }
+        });
+
+        // Обработка добавления мероприятий в избранное
+        document.addEventListener('click', async function(e) {
+            if (e.target.closest('.favourite-event-btn')) {
+                e.preventDefault();
+                const btn = e.target.closest('.favourite-event-btn');
+                const eventId = btn.getAttribute('data-event-id');
+                const heartIcon = btn.querySelector('i');
+
+                try {
+                    const response = await fetch(`/events/event/${eventId}/favourite`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include'
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.status === 'added') {
+                            heartIcon.classList.replace('far', 'fas');
+                            heartIcon.style.color = 'red';
+                        } else if (result.status === 'removed') {
+                            heartIcon.classList.replace('fas', 'far');
+                            heartIcon.style.color = '#757575';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        });
+    </script>
+{% endblock %}

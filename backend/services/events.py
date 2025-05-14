@@ -30,7 +30,13 @@ def prepare_event_data(event):
     """Подготавливает данные события для передачи в шаблон"""
     location_dict = parse_location(event.location)
     location_str = format_location_string(location_dict)
-    print(f"{location_str}")
+
+    # Рассчитываем свободные места
+    registrations_count = len(event.registrations) if event.registrations else 0
+    free_spots = None
+    if event.max_participants is not None:
+        free_spots = max(0, event.max_participants - registrations_count)
+
     return {
         "id": event.id,
         "title": event.title,
@@ -39,6 +45,8 @@ def prepare_event_data(event):
         "date": event.date,
         "time": event.time,
         "max_participants": event.max_participants,
+        "free_spots": free_spots,  # Добавляем количество свободных мест
+        "registrations_count": registrations_count,  # Добавляем общее количество регистраций
         "price": event.price,
         "image": event.image,
         "created_at": event.created_at,

@@ -357,3 +357,11 @@ h3 {
 .input:focus {
     box-shadow: 0 4px 8px var(--secondary-color);
 }
+
+.header-event{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}

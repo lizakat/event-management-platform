@@ -23,10 +23,14 @@
                     <img src="{{ event_data.event.image or '/static/images/test_image.jpg' }}" alt="{{ event_data.event.title }}">
                     <div class="event-details">
                         <div class="title-fav">
-                            <h2 class="event-title">{{ event_data.event.title }}</h2>
+                            <div class="header-event">
+                                <h2 class="event-title">{{ event_data.event.title }}</h2>
+                                <span class="separator"> | </span>
+                                <h2 class="event-title" style="color:var(--description-color); font-weight:300; font-style: italic; font-family: var(--font-family)">{{ event_data.org_name }}</h2>
+                            </div>
                             <a href="#" class="favourite-btn" data-event-id="{{ event_data.event.id }}">
                                 <i class="{% if event_data.is_favourite %}fas{% else %}far{% endif %} fa-heart"
-                                style="color: {% if event_data.is_favourite %}red{% else %}#757575{% endif %};"></i>
+                                   style="color: {% if event_data.is_favourite %}red{% else %}#757575{% endif %};"></i>
                             </a>
                         </div>
                         <p class="event-description">{{ event_data.event.description or 'Описание отсутствует' }}</p>

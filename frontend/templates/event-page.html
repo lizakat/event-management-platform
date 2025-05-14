@@ -54,9 +54,24 @@
             <hr style="margin-top: 24px; border-color: #dddddd">
 
             <div class="two-lines">
-                <p class="event-price">Цена: {{ event.price or 'Бесплатно' }}</p>
-                <p class="event-participants">Участников: {{ event.registrations|length }}/{{ event.max_participants or '∞' }}</p>
+                <p class="event-price">Цена: {{ event.price or 'Бесплатно' }} p.</p>
+                <p class="event-participants">
+                    {% if event.max_participants %}
+                        Свободно: {{ event.free_spots }}/{{ event.max_participants }}
+                    {% else %}
+                        Участников: {{ event.registrations_count }} (без ограничений)
+                    {% endif %}
+                </p>
             </div>
+
+            <hr style="margin-top: 24px; border-color: #dddddd">
+
+
+            <p class="event-location">Организатор:
+                <a href="/organizer/{{ event.organizer_id }}" style="text-decoration: none; color: inherit;">
+                    {{ org_name if org_name else 'Не указано' }}
+                </a>
+            </p>
 
             <hr style="margin-top: 24px; border-color: #dddddd">
             {% if event.organizer_id == current_user.id %}

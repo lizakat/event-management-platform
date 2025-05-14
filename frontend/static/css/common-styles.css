@@ -326,3 +326,8 @@ textarea:focus {
     line-height: 1.3;
     user-select: none;
 }
+
+
+h2{
+    font-family: var(--second-font-family)
+}

@@ -9,12 +9,17 @@
 
     <div class="all">
         <div class="menu">
+            {% if current_user.role_id == 1 %}
                 <li title="Me"><a href="/profile" class="my-page">Мой профиль</a></li>
                 <li title="My events"><a href="/org-events" class="my-events">Мои события</a></li>
-                <li title="passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
-                <li title="Registrations"   class="highlight-item"><a href="/active-registrations" class="registrations">Регистрации</a></li>
-
+                <li title="Passed events"><a href="/passed-events" class="passed-events">Прошедшие</a></li>
+                <li title="Registrations" class="highlight-item"><a href="/active-registrations" class="registrations">Регистрации</a></li>
                 <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
+            {% else %}
+                <li title="Me"><a href="/profile" class="my-page">Мой профиль</a></li>
+                <li title="Registrations" class="highlight-item"><a href="/active-registrations" class="registrations">Регистрации</a></li>
+                <li title="Edit profile"><a href="/users/edit-profile" class="edit-profile">Изменить профиль</a></li>
+            {% endif %}
         </div>
         <div class="events-small">
             <div class="event-switch-buttons">
@@ -33,10 +38,14 @@
                     <img src="{{ event_data.event.image or '/static/images/test_image.jpg' }}" alt="{{ event_data.event.title }}">
                     <div class="event-details">
                         <div class="title-fav">
-                            <h2 class="event-title">{{ event_data.event.title }}</h2>
+                            <div class="header-event">
+                                <h2 class="event-title">{{ event_data.event.title }}</h2>
+                                <span class="separator"> | </span>
+                                <h2 class="event-title" style="color:var(--description-color); font-weight:300; font-style: italic; font-family: var(--font-family)">{{ event_data.org_name }}</h2>
+                            </div>
                             <a href="#" class="favourite-btn" data-event-id="{{ event_data.event.id }}">
                                 <i class="{% if event_data.is_favourite %}fas{% else %}far{% endif %} fa-heart"
-                                style="color: {% if event_data.is_favourite %}red{% else %}#757575{% endif %};"></i>
+                                   style="color: {% if event_data.is_favourite %}red{% else %}#757575{% endif %};"></i>
                             </a>
                         </div>
                         <p class="event-description">{{ event_data.event.description or 'Описание отсутствует' }}</p>

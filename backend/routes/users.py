@@ -4,6 +4,8 @@ from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi import Request, Depends, Form, UploadFile, File
 from fastapi.responses import RedirectResponse
+
+from backend.crud import save_uploaded_file
 from backend.dependencies import get_current_user
 from backend.models import User, Category, UserCategory
 from sqlalchemy.orm import Session
@@ -44,11 +46,11 @@ async def edit_profile_post(
         birthdate: str = Form(...),
         phone: str = Form(...),
         location: str = Form(...),
-        favorite_tags: Optional[List[str]] = Form(None),  # Теперь необязательное поле
+        image: UploadFile = File(None),
+        favorite_tags: Optional[List[str]] = Form(None),
         db: Session = Depends(database.get_db),
         current_user: User = Depends(get_current_user)
 ):
-    print("menyaem1")
     try:
         # Валидация даты
         datetime.strptime(birthdate, "%Y-%m-%d")
@@ -65,10 +67,10 @@ async def edit_profile_post(
         # Обработка тегов
         db.query(UserCategory).filter(UserCategory.user_id == user.id).delete()
 
-        if favorite_tags:  # Только если теги переданы
+        if favorite_tags:
             for tag_name in favorite_tags:
                 tag_name = tag_name.strip()
-                if tag_name:  # Пропускаем пустые значения
+                if tag_name:
                     category = db.query(Category).filter(Category.name == tag_name).first()
                     if not category:
                         category = Category(name=tag_name)
@@ -76,8 +78,11 @@ async def edit_profile_post(
                         db.flush()
                     db.add(UserCategory(user_id=user.id, category_id=category.id))
 
-        # Явно устанавливаем дефолтный аватар
-        user.avatar_url = "/static/default-avatar.jpg"
+        # Обработка изображения (без await)
+        if image and image.filename:
+            user.avatar_url = save_uploaded_file(image)  # Убрали await
+        elif not user.avatar_url:
+            user.avatar_url = "/static/default-avatar.jpg"
 
         db.commit()
         return RedirectResponse("/profile", status_code=303)
@@ -85,8 +90,6 @@ async def edit_profile_post(
     except ValueError as e:
         db.rollback()
         raise HTTPException(status_code=400, detail=f"Неверный формат даты: {str(e)}")
-
-
 
 # @router.get("/user-registrations", response_model=list[schemas.RegistrationResponse])
 # def get_user_registrations(user_id: int, db: Session = Depends(database.get_db)):

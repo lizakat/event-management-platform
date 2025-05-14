@@ -108,6 +108,8 @@ class FavouriteOrganizer(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     organizer_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
 
     user = relationship("User", foreign_keys=[user_id], back_populates="favourite_organizers")
     favourite_organizers_as_organizer = relationship("User", foreign_keys=[organizer_id], back_populates="favourite_organizers_as_organizer")

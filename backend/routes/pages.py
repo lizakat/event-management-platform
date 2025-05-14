@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Request, Depends, HTTPException, Response, status, Query
 from fastapi.responses import RedirectResponse, HTMLResponse
 from sqlalchemy.orm import Session, joinedload
-from backend import database, schemas, crud
+from backend import database, schemas, crud, models
 from backend.config import settings
 from backend import schemas
 from backend.dependencies import get_current_user
-from backend.models import Registration, UserCategory, User, RegistrationStatus
+from backend.models import Registration, UserCategory, User, RegistrationStatus, FavouriteOrganizer
 from backend.schemas import UserBase
 from backend.services import users
 from backend.services.auth import require_user_or_redirect
@@ -54,11 +54,12 @@ async def read_main_page(
     events_with_favourites = []
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id) if current_user else False
+        org_name=crud.get_event_org_name(db, event.id)
         events_with_favourites.append({
             "event": prepare_event_data(event),
-            "is_favourite": is_favourite
+            "is_favourite": is_favourite,
+            "org_name": org_name
         })
-
 
     return templates.TemplateResponse(
         "main-page.html",
@@ -139,11 +140,15 @@ async def read_favourite_events(
         .limit(per_page) \
         .all()
 
-    # Помечаем все события как избранные (поскольку они из списка избранного)
-    events_with_favourites = [{
-        "event": prepare_event_data(event),
-        "is_favourite": True  # Все события на этой странице уже в избранном
-    } for event in events]
+
+    events_with_favourites = []
+    for event in events:
+        org_name = crud.get_event_org_name(db, event.id)
+        events_with_favourites.append({
+            "event": prepare_event_data(event),
+            "is_favourite": True,
+            "org_name": org_name
+        })
 
     return templates.TemplateResponse(
         "favourite-events.html",
@@ -158,9 +163,53 @@ async def read_favourite_events(
         }
     )
 
+
 @router.get("/favourite-org")
-async def read_favourite_org(request: Request):
-    return templates.TemplateResponse("favourite-org.html", {"request": request, "title": "Любимые организаторы"})
+async def read_favourite_organizers(
+        request: Request,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+
+    # Получаем избранных организаторов пользователя
+    query = db.query(User).join(
+        FavouriteOrganizer,
+        FavouriteOrganizer.organizer_id == User.id
+    ).filter(
+        FavouriteOrganizer.user_id == current_user.id
+    )
+
+    total_organizers = query.count()
+    total_pages = ceil(total_organizers / per_page)
+
+    organizers = query.order_by(User.name.asc()) \
+        .offset((page - 1) * per_page) \
+        .limit(per_page) \
+        .all()
+
+    # Подготавливаем данные организаторов
+    organizers_data = []
+    for organizer in organizers:
+        organizer_data = crud.get_organizer_with_stats(db, organizer.id)
+        if organizer_data:
+            organizers_data.append({
+                "organizer": organizer_data,
+                "is_favorite": True
+            })
+    return templates.TemplateResponse(
+        "favourite-org.html",  # Убедитесь, что у вас есть этот шаблон
+        {
+            "request": request,
+            "title": "Избранные организаторы",
+            "organizers": organizers_data,
+            "current_page": page,
+            "total_pages": total_pages,
+            "current_user": current_user
+        }
+    )
+
 
 @router.get("/user-registrations")
 async def read_user_registrations(request: Request):
@@ -195,9 +244,11 @@ async def read_org_events(
     events_with_favourites = []
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        org_name=crud.get_event_org_name(db, event.id)
         events_with_favourites.append({
             "event": prepare_event_data(event),
-            "is_favourite": is_favourite
+            "is_favourite": is_favourite,
+            "org_name": org_name
         })
 
     return templates.TemplateResponse(
@@ -241,9 +292,11 @@ async def read_org_passed_events(
     events_with_favourites = []
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        org_name=crud.get_event_org_name(db, event.id)
         events_with_favourites.append({
             "event": prepare_event_data(event),
-            "is_favourite": is_favourite
+            "is_favourite": is_favourite,
+            "org_name": org_name
         })
 
     return templates.TemplateResponse(
@@ -286,9 +339,11 @@ async def active_registrations(
     events_with_favourites = []
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        org_name=crud.get_event_org_name(db, event.id)
         events_with_favourites.append({
             "event": prepare_event_data(event),
-            "is_favourite": is_favourite
+            "is_favourite": is_favourite,
+            "org_name": org_name
         })
     return templates.TemplateResponse(
         "user-registrations.html",
@@ -303,7 +358,6 @@ async def active_registrations(
     )
 
 
-# Прошедшие регистрации
 @router.get("/passed-registrations")
 async def passed_registrations(
         request: Request,
@@ -330,9 +384,11 @@ async def passed_registrations(
     events_with_favourites = []
     for event in events:
         is_favourite = crud.is_event_in_favourites(db, current_user.id, event.id)
+        org_name=crud.get_event_org_name(db, event.id)
         events_with_favourites.append({
             "event": prepare_event_data(event),
-            "is_favourite": is_favourite
+            "is_favourite": is_favourite,
+            "org_name": org_name
         })
 
     return templates.TemplateResponse(
@@ -346,3 +402,72 @@ async def passed_registrations(
             "active_tab": "passed"  # Для подсветки активной кнопки
         }
     )
+
+
+@router.get("/organizer/{organizer_id}")
+async def show_organizer_events(
+        request: Request,
+        organizer_id: int,
+        page: int = Query(1, ge=1),
+        db: Session = Depends(database.get_db),
+        current_user: User = Depends(get_current_user)
+):
+    per_page = 5
+
+    # Получаем данные организатора
+    organizer = crud.get_organizer_with_stats(db, organizer_id)
+    if not organizer:
+        raise HTTPException(status_code=404, detail="Organizer not found")
+
+    # Проверяем, в избранном ли организатор
+    is_favorite = db.query(models.FavouriteOrganizer).filter(
+        models.FavouriteOrganizer.user_id == current_user.id,
+        models.FavouriteOrganizer.organizer_id == organizer_id
+    ).first() is not None
+
+    # Получаем события организатора с пагинацией
+    query = db.query(models.Event).filter(
+        models.Event.organizer_id == organizer_id
+    )
+    total_events = query.count()
+    events = query.order_by(models.Event.date.desc()) \
+                 .offset((page - 1) * per_page) \
+                 .limit(per_page) \
+                 .all()
+
+    total_pages = ceil(total_events / per_page)
+
+    # Подготавливаем данные для шаблона
+    events_data = []
+    for event in events:
+        event_data = prepare_event_data(event)
+        event_data['is_favourite'] = crud.is_event_in_favourites(db, current_user.id, event.id)
+        events_data.append(event_data)
+
+    return templates.TemplateResponse(
+        "organizer.html",
+        {
+            "request": request,
+            "current_page": page,
+            "total_pages": total_pages,
+            "organizer": organizer,
+            "is_favorite": is_favorite,
+            "events": events_data,
+            "current_user": current_user
+        }
+    )
+
+
+@router.post("/organizer/{organizer_id}/favourite")
+async def toggle_favorite_organizer(
+    organizer_id: int,
+    db: Session = Depends(database.get_db),
+    current_user: User = Depends(get_current_user)
+):
+    try:
+        result = crud.toggle_favorite_organizer(db, current_user.id, organizer_id)
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal server error")

@@ -38,7 +38,8 @@ async def show_event(
     is_favourite = crud.is_event_in_favourites(db, current_user.id, event_id) if current_user else False
 
     event_data = prepare_event_data(event)
-
+    org_name = crud.get_event_org_name(db, event.id)
+    print(org_name)
     return templates.TemplateResponse(
         "event-page.html",
         {
@@ -47,6 +48,7 @@ async def show_event(
             "current_user": current_user,
             "is_registered": is_registered,
             "is_favourite": is_favourite,
+            "org_name": org_name,
             "crud": crud
         }
     )
