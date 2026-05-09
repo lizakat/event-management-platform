@@ -125,8 +125,8 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/lizakat/diploma.git
-cd diploma
+git clone https://github.com/lizakat/event-management-platform.git
+cd event-management-platform
 ```
 
 ### 2. Создание виртуального окружения
